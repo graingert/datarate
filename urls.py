@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import patterns, include, url
-from reviews.models import Review
-from django.views.generic import ListView
+from reviews import models as m
+from django.views import generic as g
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
@@ -18,7 +18,7 @@ urlpatterns = patterns('',
 )
 
 urlpatterns = patterns('',
-    (r'^reviews/$', ListView.as_view(
-        model=Review,
-    )),
+	url(r'^review/(?P<pk>\d+)$', g.DetailView.as_view(model=m.Review), name="reveiw_detail"),
+    url(r'^review/$', g.ListView.as_view(model=m.Review)),
+    url(r'create-review/$',g.CreateView.as_view(model=m.Review)),
 )

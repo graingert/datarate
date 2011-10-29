@@ -9,3 +9,7 @@ class Review(m.Model):
 	text = m.TextField()
 	rating = m.IntegerField()
 	author = m.ForeignKey(authm.User)
+	
+	@m.permalink
+	def get_absolute_url(self):
+		return('review_detail', [str(self.id)])
