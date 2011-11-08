@@ -18,7 +18,7 @@ urlpatterns = patterns('',
 )
 
 urlpatterns = patterns('',
-	url(r'^review/(?P<pk>\d+)$', g.DetailView.as_view(model=m.Review), name="reveiw_detail"),
+	url(r'^review/(?P<pk>\d+)$', g.DetailView.as_view(model=m.Review), name="review_detail"),
     url(r'^review/$', g.ListView.as_view(model=m.Review)),
     url(r'create-review/$',g.CreateView.as_view(model=m.Review)),
 )
