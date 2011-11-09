@@ -6,10 +6,13 @@
             <li>
 				<article>
 					<header>
-						<span class="rating">{{review.rating}}</span>
-						<span class="title">{{ review.title }}</span>
-						<span class="author">{{ review.author.email }}</span>
-						<span class="date">{{review.datetime }}</span>
+						<a href="{{review.get_absolute_url}}">
+							<span class="rating">{{review.rating}}</span>
+							<span class="title">{{ review.title }}</span>
+							<span class="author">{{ review.author.email }}</span>
+							<span class="date">{{review.datetime }}</span>
+						</a>
+						<span class="uri">{{review.reviewed_uri}}</span>
 					</header>
 					{{review.text}}
 				</article>
