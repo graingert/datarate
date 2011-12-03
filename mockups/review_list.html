@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Review List</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+		<style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+		</style>
+	</head>
+
+  <body>
+
+	<div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <a class="brand" href="/">Reviews</a>
+
+          <ul class="nav">
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+          </ul>
+          <ul class="nav secondary-nav">
+            <li class="dropdown">
+              <a class="dropdown-toggle" href="#">Joe Bloggs</a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Sign Out</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="content">
+        <div class="page-header">
+          <h1>Site: Highfield Campus<small>http://id.southampton.ac.uk/site/1</small></h1>
+        </div>
+        <div class="row">
+          <div class="span10">
+			    <ul class="tabs">
+					<li class="active"><a href="#">Latest</a></li>
+					<li><a href="#">New</a></li>
+					<li><a href="#">Messages</a></li>
+				</ul>
+			
+			
+			<ol>
+					<li>
+						<article class="review">
+							<header>
+								<span class="rating">{{object.rating}}</span>
+								<span class="title">{{ object.title }}</span>
+								<span class="author">{{ object.author.email }}</span>
+								<span class="date">{{object.datetime }}</span>
+							</header>
+								{{object.text}}
+						</article>
+					</li>
+					<li>
+						<article class="review">
+							<header>
+								<span class="rating">{{object.rating}}</span>
+								<span class="title">{{ object.title }}</span>
+								<span class="author">{{ object.author.email }}</span>
+								<span class="date">{{object.datetime }}</span>
+							</header>
+								{{object.text}}
+						</article>
+					</li>
+				</ol>
+          </div>
+          <div class="span4">
+            <h3>Depiction</h3>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p>&copy; Company 2011</p>
+
+      </footer>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>

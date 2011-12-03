@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<title>Reviews</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <a class="brand" href="/">Reviews</a>
+
+          <ul class="nav">
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+          </ul>
+          <ul class="nav secondary-nav">
+            <li class="dropdown">
+              <a class="dropdown-toggle" href="#">Joe Bloggs</a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Sign Out</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container">
+
+		<!-- Main hero unit for a primary marketing message or call to action -->
+		<div class="hero-unit">
+			<h1>About</h1>
+			<p>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+				Ut eget massa eu odio euismod mattis. Nullam in lectus
+				ipsum. Praesent non mi enim. Donec quam ipsum, ultrices
+				non tempus id, malesuada ut elit.
+			</p>
+			<p>
+				Sed vel mi odio. Etiam tincidunt ultrices accumsan.
+				Mauris eros justo, adipiscing sed auctor vel, sodales ac
+				lorem. Nam nec arcu erat, eget pellentesque arcu.
+				Donec vitae turpis id dui auctor pulvinar. Etiam quis
+				magna sit amet felis imperdiet sagittis in sed eros. 
+			</p>
+		</div>
+
+      <!-- Example row of columns -->
+		<div class="row">
+			<div class="span-one-third">
+				<h2>Recent Reviews</h2>
+				<ol>
+					<li>
+						<article class="review">
+							<header>
+								<span class="rating">{{object.rating}}</span>
+								<span class="title">{{ object.title }}</span>
+								<span class="author">{{ object.author.email }}</span>
+								<span class="date">{{object.datetime }}</span>
+							</header>
+								{{object.text}}
+						</article>
+					</li>
+					<li>
+						<article class="review">
+							<header>
+								<span class="rating">{{object.rating}}</span>
+								<span class="title">{{ object.title }}</span>
+								<span class="author">{{ object.author.email }}</span>
+								<span class="date">{{object.datetime }}</span>
+							</header>
+								{{object.text}}
+						</article>
+					</li>
+				</ol>
+				<a class="btn" href="/new/">More &raquo;</a>
+			</div>
+			
+			<div class="span-one-third">
+				<h2>Highest Rated Objects</h2>
+				<ol>
+					<li>
+							<article class="concept">
+								<header>
+									<span class="title">{{object.title}}</span>
+									<span class="rating">{{object.rating}}</span>
+								</header>
+								<figure>
+									<img src="{{object.depiction}}" />
+								</figure>
+							</article>
+					</li>
+					<li>
+							<article class="concept">
+								<header>
+									<span class="title">{{object.title}}</span>
+									<span class="rating">{{object.rating}}</span>
+								</header>
+								<figure>
+									<img src="{{object.depiction}}" />
+								</figure>
+							</article>
+					</li>
+				</ol>
+				<a class="btn" href="/best/">More &raquo;</a>
+			</div>
+			
+			<div class="span-one-third">
+				<h2>Lowest Rated Objects</h2>
+<ol>
+					<li>
+							<article class="concept">
+								<header>
+									<span class="title">{{object.title}}</span>
+									<span class="rating">{{object.rating}}</span>
+								</header>
+								<figure>
+									<img src="{{object.depiction}}" />
+								</figure>
+							</article>
+					</li>
+					<li>
+							<article class="concept">
+								<header>
+									<span class="title">{{object.title}}</span>
+									<span class="rating">{{object.rating}}</span>
+								</header>
+								<figure>
+									<img src="{{object.depiction}}" />
+								</figure>
+							</article>
+					</li>
+				</ol>
+				<a class="btn" href="/worst/">More &raquo;</a>
+			</div>
+
+		</div>
+
+      <footer>
+        <p>&copy; Thomas Grainger 2011</p>
+
+      </footer>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>
