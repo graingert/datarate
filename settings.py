@@ -123,6 +123,7 @@ INSTALLED_APPS = (
     'reviews',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'django_extensions',
 )
 
 # A sample logging configuration. The only tangible logging
