@@ -14,6 +14,11 @@
 
     <!-- Le styles -->
     <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+    </style>
 {% block head %}
 {% endblock %}
   </head>
@@ -25,7 +30,8 @@
 					<a class="brand" href="/">Datarate</a>
 						<ul class="nav">
 							{% block nav %}
-								<li><a href="/lobby/">Lobby</a><li>
+								<li><a href="/review/">Review</a><li>
+								<li><a href="/create-review/">Create Review</a><li>
 							{% endblock %}
 						</ul>
 					<ul class="nav secondary-nav">
@@ -51,17 +57,17 @@
 {% block container %}
 <div class="container">
 
-  <div class="content">
-{% block content %}
-{% endblock %}
-  </div>
+	<div class="content">
+		{% block content %}
+		{% endblock %}
+	</div>
 
-  <footer>
-{% block footer %}
-{% endblock %}
-  </footer>
+	<footer>
+		{% block footer %}
+		{% endblock %}
+	</footer>
 
-</div> <!-- /container -->
+</div>
 {% endblock %}
 </body>
 </html>
