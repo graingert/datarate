@@ -4,6 +4,9 @@ from django.contrib.auth import models as authm
 
 class Reviewable_URI(m.Model):
 	reviewed_uri = m.URLField(verify_exists=False, unique=True)
+	
+	def __str__(self):
+		return self.reviewed_uri;
 
 
 class Review(m.Model):
