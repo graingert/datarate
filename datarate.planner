@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="" company="" manager="" phase="" project-start="20111209T000000Z" mrproject-version="2" calendar="1">
+<project name="Gathering and Aggregating User Feedback using the Linked Web" company="" manager="Thomas Grainger" phase="" project-start="20111020T000000Z" mrproject-version="2" calendar="2">
   <properties/>
   <phases/>
   <calendars>
@@ -17,56 +17,85 @@
         </overridden-day-type>
       </overridden-day-types>
       <days/>
+      <calendar id="2" name="Working All The Hours">
+        <default-week mon="2" tue="2" wed="2" thu="2" fri="2" sat="0" sun="0"/>
+        <overridden-day-types/>
+        <days/>
+      </calendar>
     </calendar>
   </calendars>
   <tasks>
-    <task id="1" name="Configure Website" note="" work="86400" start="20111209T000000Z" end="20111212T170000Z" work-start="20111209T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-      <task id="2" name="Install Django" note="" work="28800" start="20111209T000000Z" end="20111209T170000Z" work-start="20111209T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="3" name="Configure Models" note="" work="28800" start="20111209T170000Z" end="20111212T170000Z" work-start="20111212T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+    <task id="1" name="Configure Website" note="" work="201600" start="20111020T000000Z" end="20111026T170000Z" work-start="20111020T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
+      <task id="2" name="Install Django" note="" work="28800" start="20111020T000000Z" end="20111020T170000Z" work-start="20111020T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="3" name="Configure Models" note="" work="86400" start="20111020T170000Z" end="20111023T170000Z" work-start="20111021T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
         <predecessors>
           <predecessor id="1" predecessor-id="2" type="FS"/>
         </predecessors>
       </task>
-      <task id="4" name="Configure URLs" note="" work="28800" start="20111209T170000Z" end="20111212T170000Z" work-start="20111212T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="4" name="Configure URLs" note="" work="86400" start="20111023T170000Z" end="20111026T170000Z" work-start="20111024T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
         <predecessors>
-          <predecessor id="1" predecessor-id="2" type="FS"/>
+          <predecessor id="1" predecessor-id="3" type="FS"/>
         </predecessors>
       </task>
     </task>
-    <task id="5" name="Create User Interface" note="" work="115200" start="20111209T000000Z" end="20111214T170000Z" work-start="20111209T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-      <task id="6" name="Mockup Sites" note="" work="28800" start="20111209T000000Z" end="20111209T170000Z" work-start="20111209T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="7" name="Create Base HTML Templates" note="" work="28800" start="20111209T170000Z" end="20111212T170000Z" work-start="20111212T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+    <task id="5" name="Create Progress Report" note="" work="518400" start="20111126T000000Z" end="20111213T170000Z" work-start="20111126T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="1" type="FS"/>
+      </predecessors>
+      <task id="6" name="Design and Specification" note="" work="288000" start="20111126T000000Z" end="20111205T170000Z" work-start="20111126T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20111126T000000Z"/>
+      </task>
+      <task id="7" name="Mockup Sites" note="" work="144000" start="20111205T170000Z" end="20111210T170000Z" work-start="20111206T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
         <predecessors>
           <predecessor id="1" predecessor-id="6" type="FS"/>
         </predecessors>
       </task>
-      <task id="8" name="Add CSS styling" note="" work="28800" start="20111212T170000Z" end="20111213T170000Z" work-start="20111213T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="8" name="Literature Review" note="" work="86400" start="20111210T170000Z" end="20111213T170000Z" work-start="20111211T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
         <predecessors>
           <predecessor id="1" predecessor-id="7" type="FS"/>
-        </predecessors>
-      </task>
-      <task id="9" name="Javascript Interaction" note="" work="28800" start="20111213T170000Z" end="20111214T170000Z" work-start="20111214T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-        <predecessors>
-          <predecessor id="1" predecessor-id="8" type="FS"/>
         </predecessors>
       </task>
     </task>
-    <task id="10" name="Aggregation" note="" work="86400" start="20111212T170000Z" end="20111215T170000Z" work-start="20111213T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-      <task id="11" name="Calculate Importance of Reviews" note="" work="28800" start="20111212T170000Z" end="20111213T170000Z" work-start="20111213T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+    <task id="9" name="Create User Interface" note="" work="662400" start="20111226T000000Z" end="20120117T170000Z" work-start="20111226T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="10" name="Create HTML Templates" note="" work="57600" start="20111226T000000Z" end="20111227T170000Z" work-start="20111226T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20111226T000000Z"/>
+      </task>
+      <task id="11" name="Add CSS" note="" work="86400" start="20111227T170000Z" end="20111230T170000Z" work-start="20111228T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
         <predecessors>
-          <predecessor id="1" predecessor-id="7" type="FS"/>
+          <predecessor id="1" predecessor-id="10" type="FS"/>
         </predecessors>
       </task>
-      <task id="12" name="Basic Histograms of Objects" note="" work="28800" start="20111213T170000Z" end="20111214T170000Z" work-start="20111214T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="12" name="Create Views" note="" work="86400" start="20111230T170000Z" end="20120102T170000Z" work-start="20111231T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
         <predecessors>
           <predecessor id="1" predecessor-id="11" type="FS"/>
         </predecessors>
       </task>
-      <task id="13" name="Google Map Heatmap" note="" work="28800" start="20111214T170000Z" end="20111215T170000Z" work-start="20111215T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="13" name="Authentication System" note="" work="288000" start="20120102T170000Z" end="20120112T170000Z" work-start="20120103T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
         <predecessors>
           <predecessor id="1" predecessor-id="12" type="FS"/>
         </predecessors>
       </task>
+      <task id="14" name="JavaScript Interaction" note="" work="144000" start="20120112T170000Z" end="20120117T170000Z" work-start="20120113T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="13" type="FS"/>
+        </predecessors>
+      </task>
+    </task>
+    <task id="15" name="Advanced Features" note="" work="1612800" start="20120117T170000Z" end="20120313T170000Z" work-start="20120118T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="9" type="FS"/>
+      </predecessors>
+      <task id="16" name="Find Objects Near Me" note="" work="460800" start="20120117T170000Z" end="20120202T170000Z" work-start="20120118T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="17" name="Reviews Pertaining to Resource Properties" note="" work="1152000" start="20120202T170000Z" end="20120313T170000Z" work-start="20120203T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="16" type="FS"/>
+        </predecessors>
+      </task>
+    </task>
+    <task id="18" name="Final Project Report" note="" work="1440000" start="20120313T170000Z" end="20120502T170000Z" work-start="20120314T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="15" type="FS"/>
+      </predecessors>
     </task>
   </tasks>
   <resource-groups/>
