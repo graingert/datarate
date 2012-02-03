@@ -4,8 +4,6 @@
     <meta charset="utf-8">
     <title>{% block title %}Datarate{% endblock %}</title>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -67,6 +65,12 @@
 	</footer>
 
 </div>
+{% endblock %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}3rdparty/bootstrap/js/bootstrap.min.js"></script>
+{% block scripts %}
 {% endblock %}
 </body>
 </html>
