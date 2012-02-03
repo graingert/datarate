@@ -1,5 +1,6 @@
 # Create your views here.
 from reviews.models import *
+from django.views.generic import *
 import urllib
 
 class ReviewableDetailView(DetailView):
@@ -9,5 +10,3 @@ class ReviewableDetailView(DetailView):
 		encoded_uri = self.kwargs["uri"]
 		uri = urllib.unquote(encoded_uri)
 		return Reviewable_URI(reviewed_uri = uri)
-		
-
