@@ -5,7 +5,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+     ('Thomas Grainger', 'tagrain@gmail.com'),
 )
 
 HOME_ROOT = os.path.dirname(__file__)
@@ -75,6 +75,8 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    
+    HOME_ROOT + "/static",
 )
 
 # List of finder classes that know how to find static files in

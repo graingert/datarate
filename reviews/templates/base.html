@@ -5,7 +5,6 @@
     <title>{% block title %}Datarate{% endblock %}</title>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-dropdown.js"></script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
@@ -13,39 +12,43 @@
     <![endif]-->
 
     <!-- Le styles -->
-    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}3rdparty/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}base/style.css" />
 {% block head %}
 {% endblock %}
   </head>
-
 	<body>
-		<div class="topbar">
-			<div class="topbar-inner">
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
 				<div class="container-fluid">
 					<a class="brand" href="/">Datarate</a>
+					<div class="nav-collapse collapse">
 						<ul class="nav">
-							{% block nav %}
-								<li><a href="/review/">Review</a><li>
-								<li><a href="/create-review/">Create Review</a><li>
-							{% endblock %}
+							<li><a href="/review/">Review</a><li>
+							<li><a href="/create-review/">Create Review</a><li>
+						{% block nav %}
+						{% endblock %}
 						</ul>
-					<ul class="nav secondary-nav">
-						{% if user.is_authenticated %}
-						<li id="session" class="dropdown" data-dropdown="dropdown">
-							<a href="#" class="dropdown-toggle">
-								<img src="{{profile.gravatar_url}}" />
-								<span id="profile-name">{{user.username}}</span>
-							</a>
-							<ul class="dropdown-menu">
-								<li><a href="">Settings</a></li>
-								<li><a href="#">Help</a></li>
-								<li class="divider"></li>
-								<li><a href="">Sign Out</a></li>
-							</ul>
-						</li>
-						{% endif %}
-					</ul>
+						<ul class="nav pull-right">
+							<li class="divider-vertical"></li>
+							{% if user.is_authenticated %}
+								<li id="session" class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+										<span class="username">{{user.username}}</span> <b class="caret"></b></a>
+									<ul class="dropdown-menu">
+										<li><a href="#">Action</a></li>
+										
+										<li><a href="#">Another action</a></li>
+										<li><a href="#">Something else here</a></li>
+										<li class="divider"></li>
+										<li><a href="#">Separated link</a></li>
+									</ul>
+								</li>
+							{ %else %}
+								<li>login</li>
+							{% endif %}
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
