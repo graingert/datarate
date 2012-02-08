@@ -14,6 +14,6 @@ urlpatterns = patterns('',
 
     #Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    
+    url(r'^browserid/', include('django_browserid.urls')),
     (r'', include('reviews.urls')),
 )

@@ -34,7 +34,7 @@
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 										<span class="username">{{user.username}}</span> <b class="caret"></b></a>
 									<ul class="dropdown-menu">
-										<li><a href="#">Action</a></li>
+										<li><a href="#">Log Out</a></li>
 										
 										<li><a href="#">Another action</a></li>
 										<li><a href="#">Something else here</a></li>
@@ -42,8 +42,12 @@
 										<li><a href="#">Separated link</a></li>
 									</ul>
 								</li>
-							{ %else %}
-								<li>login</li>
+							{% else %}
+								<a id="browserid" href="">Sign In</a>
+								<form method="POST" action="{% url browserid_verify %}">
+									{% csrf_token %}
+									{{ browserid_form.as_p }}
+								</form>	
 							{% endif %}
 						</ul>
 					</div>
@@ -68,8 +72,9 @@
 {% endblock %}
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="{{ STATIC_URL }}3rdparty/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}3rdparty/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="https://browserid.org/include.js" type="text/javascript"></script>
 {% block scripts %}
 {% endblock %}
 </body>
