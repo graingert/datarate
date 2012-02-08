@@ -12,7 +12,9 @@
 							<span class="author">{{ review.author.email }}</span>
 							<span class="date">{{review.datetime }}</span>
 						</a>
-						<span class="uri">{{review.reviewed_uri}}</span>
+						<a href="{{review.reviewed_uri.get_absolute_url}}">
+							<span class="uri">{{review.reviewed_uri}}</span>
+						</a>
 					</header>
 					{{review.text}}
 				</article>

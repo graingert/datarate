@@ -1,21 +1,26 @@
 from django.db import models as m
 from django.contrib.auth import models as authm
+from django_extensions.db.fields import AutoSlugField, CreationDateTimeField, ModificationDateTimeField
 # Create your models here.
 
-class Reviewable_URI(m.Model):
-	reviewed_uri = m.URLField(verify_exists=False, unique=True)
-	
+class Thing(m.Model):
+	uri = m.URLField(verify_exists=False, unique=True)
+	slug = AutoSlugField(populate_from="uri", unique=True, )
 	def __str__(self):
-		return self.reviewed_uri;
-
+		return self.uri;
+	
+	@m.permalink
+	def get_absolute_url(self):
+		return('thing_detail', [self.slug])
 
 class Review(m.Model):
-	date_created = m.DateTimeField(auto_now_add=True)
+	date_created = CreationDateTimeField()
+	date_modified = ModificationDateTimeField()
 	title = m.CharField(max_length=128)
 	text = m.TextField()
 	rating = m.IntegerField()
 	author = m.ForeignKey(authm.User)
-	reviewed_uri = m.ForeignKey(Reviewable_URI)
+	reviewed_uri = m.ForeignKey(Thing)
 	
 	@m.permalink
 	def get_absolute_url(self):

@@ -9,5 +9,5 @@ urlpatterns = patterns('',
 	url(r'^review/(?P<pk>\d+)$', g.DetailView.as_view(model=m.Review), name="review_detail"),
 	url(r'^review/$', g.ListView.as_view(model=m.Review)),
 	url(r'create-review/$',g.CreateView.as_view(model=m.Review)),
-	url(r'^object/(?P<url>\d+)$', v.ReviewableDetailView.as_view(), name="reviewable_detail"),
+	url(r'^things/(?P<slug>[-\w]+)$', v.ThingDetailView.as_view(model=m.Thing), name="thing_detail"),
 )
