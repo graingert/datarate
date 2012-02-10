@@ -1,10 +1,38 @@
 {% extends "base.html" %} 
 {% block content %}
-	<article>
+	<article class="thing">
 		<header>
 			<a href="{{object.uri}}">
 				<h2 class="name">{{object}}</h2>
 			</a>
 		</header>
+		
+		{% if object.review_set.all %}
+	    <h2>Reviews</h2>
+	    <ol class="review-stream well">
+	        {% for review in object.review_set.all %}
+	            <li>
+					<article class="review">
+						<header>
+							<a href="{{review.get_absolute_url}}">
+								<span class="rating">{{review.rating}}</span>
+								<span class="title">{{ review.title }}</span>
+								<span class="author">{{ review.author.email }}</span>
+								<span class="date">{{review.datetime }}</span>
+							</a>
+							<a href="{{review.reviewed_uri.get_absolute_url}}">
+								<span class="uri">{{review.reviewed_uri}}</span>
+							</a>
+						</header>
+						<detail>
+							{{review.text}}
+						</detail>
+					</article>
+				</li>
+	        {% endfor %}
+	    </ol>
+		{% else %}
+			No reviews have been created yet.
+		{% endif %}
 	</article>
 {% endblock content%}
