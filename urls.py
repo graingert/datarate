@@ -2,6 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 import reviews
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -16,4 +17,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^browserid/', include('django_browserid.urls')),
     (r'', include('reviews.urls')),
+    url(r'^signout/$', 'django.contrib.auth.views.logout', name="logout"),
 )
