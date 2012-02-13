@@ -17,3 +17,8 @@ body {
 .review {
 	padding: 9px 12px;
 }
+
+.avatar {
+	width: 20px;
+	height: 20px;
+}

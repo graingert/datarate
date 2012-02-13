@@ -173,6 +173,8 @@ BROWSERID_CREATE_USER = True
 
 SITE_URL="http://localhost:8000"
 
+AUTH_PROFILE_MODULE = "reviews.UserProfile"
+
 try:
 	from local_settings import *
 except ImportError as e:

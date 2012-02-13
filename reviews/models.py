@@ -1,6 +1,7 @@
 from django.db import models as m
 from django.contrib.auth.models import User
 from django_extensions.db.fields import AutoSlugField, CreationDateTimeField, ModificationDateTimeField
+import urllib, hashlib
 # Create your models here.
 
 class Thing(m.Model):
@@ -29,28 +30,29 @@ class Review(m.Model):
 class ExtendedReview(Review):
 	extra = m.TextField()
 
-
-#Set the first_name to the first part of the email address
 from django.db.models.signals import post_save, pre_save
 
-def user_first_name(sender, instance, created, **kwargs):
+class UserProfile(m.Model):
+    # This field is required.
+    user = m.OneToOneField(User)
+    gravatar_hash = m.CharField(max_length=32)
+    nickname = m.CharField(max_length=30)
+    
+    def gravatar_url(self):
+		return "http://www.gravatar.com/avatar/" + self.gravatar_hash
+		
+
+"""
+Set the first_name to the first part of the email address and cache the
+gravatar md5 to avoid recalculating it
+"""
+
+def create_user_profile(sender, instance, created, **kwargs):
 	if created:
-		instance.firstname = instance.email.rsplit("@",1)[0][:30]
-		instance.save()
+		UserProfile.objects.create(
+			user = instance,
+			nickname = instance.email.rsplit("@",1)[0][:30],
+			gravatar_hash = hashlib.md5(instance.email.lstrip().lower()).hexdigest()
+		)
 
-post_save.connect(user_first_name, sender=User)
-
-##cache gravatar md5
-#import urllib, hashlib
-#class UserProfile(m.Model):
-	## This field is required.
-	#user = m.OneToOneField(User)
-	#gravatar_hash = m.CharField(max_length=32)
-
-#def create_user_profile(sender, instance, created, **kwargs):
-	#if created:
-		#gravatar_hash = hashlib.md5(instance.email.lower()).hexdigest()
-		#UserProfile.objects.create(user=instance)
-
-
-#post_save.connect(create_user_profile, sender=User)
+post_save.connect(create_user_profile, sender=User)
