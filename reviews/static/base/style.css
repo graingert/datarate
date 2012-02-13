@@ -18,7 +18,20 @@ body {
 	padding: 9px 12px;
 }
 
-.avatar {
-	width: 20px;
-	height: 20px;
+#session .avatar {
+	width: 18px;
+	height: 18px;
+	margin-right: 3px;
+}
+
+.navbar img {
+	vertical-align: text-bottom;
+}
+
+#login form {
+	display: none;
+}
+
+#login a {
+	padding: 8px 0px 0px;
 }
