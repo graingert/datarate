@@ -1,0 +1,26 @@
+<VirtualHost *:80>
+    #Basic setup
+    ServerAdmin mail@example.com
+    ServerName kanga-tag1g09b.ecs.soton.ac.uk
+    ServerAlias kanga-tag1g09b.ecs.soton.ac.uk datarate.graingert.co.uk
+    Alias /static/ /home/user/projects/datarate/sitestatic/
+    <Directory /home/user/projects/datarate>
+	<Files wsgi.py>
+        	Order deny,allow
+        	Allow from all
+	</Files>
+    </Directory>
+
+    <Directory /home/user/projects/datarate/sitestatic/>
+        Order deny,allow
+        Allow from all
+    </Directory>
+   
+    LogLevel warn
+    ErrorLog  /home/user/projects/datarate/logs/apache_error.log
+    CustomLog /home/user/projects/datarate/logs/apache_access.log combined
+    
+    WSGIDaemonProcess kanga-tag1g09b.ecs.soton.ac.uk user=www-data group=www-data threads=25 python-path=/home/user/projects:/home/user/projects/datarate
+    WSGIProcessGroup kanga-tag1g09b.ecs.soton.ac.uk
+    WSGIScriptAlias / /home/user/projects/datarate/wsgi.py
+</VirtualHost>
