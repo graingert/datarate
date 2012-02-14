@@ -175,6 +175,10 @@ SITE_URL="http://localhost:8000"
 
 AUTH_PROFILE_MODULE = "reviews.UserProfile"
 
+LOGIN_REDIRECT_URL = '/'
+
+LOGIN_REDIRECT_URL_FAILURE = '/'
+
 try:
 	from local_settings import *
 except ImportError as e:
