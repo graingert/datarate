@@ -17,7 +17,11 @@
 							<a href="{{review.get_absolute_url}}">
 								<span class="rating">{{review.rating}}</span>
 								<span class="title">{{ review.title }}</span>
-								<span class="author">{{ review.author.email }}</span>
+								<address class="author">
+									<img class="avatar" src="{{ review.author.get_profile.gravatar_url }}" />
+									<span class="nickname">{{ review.author.get_profile.nickname }}</span>
+								</address>
+								
 								<span class="date">{{review.datetime }}</span>
 							</a>
 							<a href="{{review.reviewed_uri.get_absolute_url}}">
