@@ -20,7 +20,7 @@ class Review(m.Model):
 	title = m.CharField(max_length=128)
 	text = m.TextField()
 	rating = m.IntegerField()
-	author = m.ForeignKey(User)
+	author = m.ForeignKey(User, editable="false")
 	reviewed_uri = m.ForeignKey(Thing)
 	
 	@m.permalink
