@@ -176,7 +176,7 @@ SITE_URL="http://localhost:8000"
 AUTH_PROFILE_MODULE = "reviews.UserProfile"
 
 LOGIN_REDIRECT_URL = '/' #TODO: send to profile
-
+LOGIN_URL = '/sign-in'
 LOGIN_REDIRECT_URL_FAILURE = '/'
 
 try:

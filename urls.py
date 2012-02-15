@@ -17,5 +17,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^browserid/', include('django_browserid.urls')),
     (r'', include('reviews.urls')),
-    url(r'^signout/$', 'django.contrib.auth.views.logout', name="logout"),
+    url(r'^sign-out/$', 'django.contrib.auth.views.logout', name="logout"),
+    url(r'^sign-in/$', 'django.contrib.auth.views.login', name="login")
 )
