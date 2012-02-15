@@ -1,1 +1,12 @@
 {% extends "base.html" %} 
+{% block browserid %}{% endblock browserid %}
+{% block content %}
+
+									<a id="browserid" href="">
+										<img src="{{ STATIC_URL }}3rdparty/browserid/sign_in_blue.png" alt="Sign In" />
+									</a>
+									<form method="POST" action="{% url browserid_verify %}?next={{next}}">
+										{% csrf_token %}
+										{{ browserid_form.as_p }}
+									</form>
+{% endblock content %}
