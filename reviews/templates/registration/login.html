@@ -1,12 +1,23 @@
 {% extends "base.html" %} 
 {% block browserid %}{% endblock browserid %}
 {% block content %}
+      <div class="hero-unit">
+        <h1>Sign in with BrowserID</h1>
+        <p>So as to authenticate you without hosting passwords, you must
+        login with <a href="https://browserid.org/about">BrowserID</a></p>
+        <p>BrowserID was chosen because it is the authentication provider
+        that reveals the least amount of personal information.</p>
+        <p>Why should Datarate be able to read your Tweets or post on your
+        Facebook wall?</p>
 
-									<a id="browserid" href="">
-										<img src="{{ STATIC_URL }}3rdparty/browserid/sign_in_blue.png" alt="Sign In" />
-									</a>
-									<form method="POST" action="{% url browserid_verify %}?next={{next}}">
-										{% csrf_token %}
-										{{ browserid_form.as_p }}
-									</form>
+			<a class="btn btn-primary btn-large" id="browserid" href="">
+				<img src="{{ STATIC_URL }}3rdparty/browserid/sign_in_blue.png" alt="Sign In" />
+			</a>
+			
+			<form method="POST" action="{% url browserid_verify %}?next={{next}}">
+				{% csrf_token %}
+				{{ browserid_form.as_p }}
+			</form>
+      </div>
+
 {% endblock content %}
