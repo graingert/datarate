@@ -167,6 +167,7 @@ TEMPLATE_CONTEXT_PROCESSORS =(
 
 TEMPLATE_CONTEXT_PROCESSORS += (
     'django_browserid.context_processors.browserid_form',
+    'django.core.context_processors.request'
 )
 
 BROWSERID_CREATE_USER = True
