@@ -38,5 +38,6 @@
 		{% else %}
 			No reviews have been created yet.
 		{% endif %}
+		<a class="btn btn-large btn-primary" href="{% url create-review object.slug %}">Review this Thing</a>
 	</article>
 {% endblock content%}
