@@ -23,3 +23,7 @@ class ReviewCreateView(CreateView):
 		self.object.author = self.request.user
 		self.object.save()
 		return super(ReviewCreateView, self).form_valid(form)
+		
+	def get_initial(self):
+		self.initial["reviewed_uri"] = Thing.objects.get(slug=self.kwargs["slug"])
+		
