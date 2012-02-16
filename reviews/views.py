@@ -26,4 +26,5 @@ class ReviewCreateView(CreateView):
 		
 	def get_initial(self):
 		self.initial["reviewed_uri"] = Thing.objects.get(slug=self.kwargs["slug"])
+		return self.initial
 		
