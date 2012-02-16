@@ -15,3 +15,9 @@ class ReviewCreateView(CreateView):
 	@method_decorator(login_required)
 	def dispatch(self, *args, **kwargs):
 		return super(ReviewCreateView, self).dispatch(*args, **kwargs)
+		
+	def form_valid(self, form):
+		self.object = form.save(commit=False)
+		self.object.author = self.request.user
+		self.object.save()
+		return super(ReviewCreateView, self).form_valid(form)
