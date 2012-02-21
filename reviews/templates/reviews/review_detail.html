@@ -1,12 +1,27 @@
 {% extends "base.html" %} 
 {% block content %}
-	<article>
-		<header>
-			<span class="rating">{{object.rating}}</span>
-			<span class="title">{{ object.title }}</span>
-			<span class="author">{{ object.author.email }}</span>
-			<span class="date">{{object.datetime }}</span>
-		</header>
-		{{object.text}}
-	</article>
+<ul class="review-stream well">
+            <li>
+				<article class="review">
+					<header>
+						<a href="{{object.get_absolute_url}}">
+							<span class="rating">{{ object.rating}}</span>
+							<span class="title">{{ object.title }}</span>
+							<address class="author">
+								<img class="avatar" src="{{ object.author.get_profile.gravatar_url }}" />
+								<span class="nickname">{{ object.author.get_profile.nickname }}</span>
+							</address>
+							
+							<span class="date">{{object.datetime }}</span>
+						</a>
+						<a href="{{object.reviewed_uri.get_absolute_url}}">
+							<span class="uri">{{object.reviewed_uri}}</span>
+						</a>
+					</header>
+					<detail>
+						{{object.text}}
+					</detail>
+				</article>
+			</li>
+    </ul>
 {% endblock content%}

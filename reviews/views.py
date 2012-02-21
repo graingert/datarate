@@ -14,14 +14,19 @@ class ThingDetailView(DetailView):
 class ReviewCreateView(CreateView):
 	model = Review
 	form_class = ReviewForm
+
+	
 	@method_decorator(login_required)
 	def dispatch(self, *args, **kwargs):
 		return super(ReviewCreateView, self).dispatch(*args, **kwargs)
-	
-	#hack to set the correct user
+		
 	def form_valid(self, form):
 		self.object = form.save(commit=False)
 		self.object.author = self.request.user
 		self.object.save()
-		return super(ModelFormMixin, self).form_valid(form)
+		return super(ReviewCreateView, self).form_valid(form)
+		
+	def get_initial(self):
+		self.initial["reviewed_uri"] = Thing.objects.get(slug=self.kwargs["slug"])
+		return self.initial
 		

@@ -2,17 +2,25 @@ from django.db import models as m
 from django.contrib.auth.models import User
 from django_extensions.db.fields import AutoSlugField, CreationDateTimeField, ModificationDateTimeField
 import urllib, hashlib
+from rdflib import ConjunctiveGraph, Namespace, exceptions
+from rdflib import URIRef, RDFS, RDF, BNode
 # Create your models here.
 
 class Thing(m.Model):
 	uri = m.URLField(verify_exists=False, unique=True)
 	slug = AutoSlugField(populate_from="uri", unique=True, )
 	def __str__(self):
-		return self.uri;
+		return self.label();
 	
 	@m.permalink
 	def get_absolute_url(self):
 		return('thing_detail', [self.slug])
+		
+	def label(self):
+		g = ConjunctiveGraph()
+		g.parse(self.uri)
+		return str(g.label(URIRef(self.uri), self.uri))
+		
 
 class Review(m.Model):
 	date_created = CreationDateTimeField()
