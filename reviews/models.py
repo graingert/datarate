@@ -15,11 +15,27 @@ class Thing(m.Model):
 	@m.permalink
 	def get_absolute_url(self):
 		return('thing_detail', [self.slug])
-		
+	
+	def build_graph(self):
+		self._graph = ConjunctiveGraph()
+		self._graph.parse(self.uri)
+		return self._graph
+	
+	@property
+	def graph(self):
+		return getattr(self, "_graph", self.build_graph())
+	
 	def label(self):
-		g = ConjunctiveGraph()
-		g.parse(self.uri)
-		return str(g.label(URIRef(self.uri), self.uri))
+		return str(self.graph.label(URIRef(self.uri), self.uri))
+	
+	def description(self):
+		desc = self.graph.value(
+			subject=URIRef(self.uri),
+			predicate=URIRef("http://purl.org/dc/terms/description"),
+			object=None,
+			default="No description"
+		)
+		return str(desc)
 		
 
 class Review(m.Model):

@@ -5,7 +5,11 @@
 			<a href="{{object.uri}}">
 				<h2 class="name">{{object}}</h2>
 			</a>
+			<small class="uri">{{object.uri}}</small>
 		</header>
+		<detail>
+			{{object.description}}
+		</detail>
 		
 		{% if object.review_set.all %}
 	    <h2>Reviews</h2>
