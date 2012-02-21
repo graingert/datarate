@@ -16,7 +16,7 @@ class Thing(m.Model):
 	def get_absolute_url(self):
 		return('thing_detail', [self.slug])
 		
-	def label():
+	def label(self):
 		g = ConjunctiveGraph()
 		g.parse(self.uri)
 		return str(g.label(URIRef(self.uri), self.uri))
