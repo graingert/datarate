@@ -8,7 +8,7 @@
 			<small class="uri">{{object.uri}}</small>
 		</header>
 		<details>
-			{{object.description}}
+			{{object.description|safe}} {# This is not actually safe #}
 		</details>
 		
 		{% if object.review_set.all %}
