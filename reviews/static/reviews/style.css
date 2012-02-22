@@ -1,0 +1,31 @@
+.review-stream {
+	list-style: none;
+	padding: 0;
+}
+
+.review-stream li {
+	border-bottom: 1px solid #C7C7C7;
+}
+.review-stream li:last-child {
+	border: none;
+}
+
+.review {
+	padding: 9px 12px;
+}
+
+.review .avatar {
+    border-radius: 5px 5px 5px 5px;
+    height: 48px;
+    width: 48px;
+}
+
+.review header {
+	font-weight: bold;
+}
+
+.review .date {
+	font-weight: normal;
+	color: #C7C7C7;
+}
+
