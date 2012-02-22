@@ -1,0 +1,25 @@
+<ol class="review-stream well">
+	{% for review in reviews %}
+		<li>
+			<article id="review-{{review.id}}" class="review">
+				<header>
+						<span class="rating">{{review.rating}}</span>
+						<span class="title">{{ review.title }}</span>
+						<span class="date">{{review.date_created }}</span>
+						<address class="author">
+							<img class="avatar" src="{{ review.author.get_profile.gravatar_url }}" />
+							<span class="nickname">{{ review.author.get_profile.nickname }}</span>
+						</address>
+					{% if not thing %}
+					<a href="{{review.reviewed_uri.get_absolute_url}}">
+						<span class="uri">{{review.reviewed_uri}}</span>
+					</a>
+					{% endif %}
+				</header>
+				<p>
+					{{review.text}}
+				</p>
+			</article>
+		</li>
+	{% endfor %}
+</ol>

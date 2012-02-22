@@ -7,38 +7,13 @@
 			</a>
 			<small class="uri">{{object.uri}}</small>
 		</header>
-		<detail>
+		<details>
 			{{object.description}}
-		</detail>
+		</details>
 		
 		{% if object.review_set.all %}
 	    <h2>Reviews</h2>
-	    <ol class="review-stream well">
-	        {% for review in object.review_set.all %}
-	            <li>
-					<article class="review">
-						<header>
-							<a href="{{review.get_absolute_url}}">
-								<span class="rating">{{review.rating}}</span>
-								<span class="title">{{ review.title }}</span>
-								<address class="author">
-									<img class="avatar" src="{{ review.author.get_profile.gravatar_url }}" />
-									<span class="nickname">{{ review.author.get_profile.nickname }}</span>
-								</address>
-								
-								<span class="date">{{review.datetime }}</span>
-							</a>
-							<a href="{{review.reviewed_uri.get_absolute_url}}">
-								<span class="uri">{{review.reviewed_uri}}</span>
-							</a>
-						</header>
-						<detail>
-							{{review.text}}
-						</detail>
-					</article>
-				</li>
-	        {% endfor %}
-	    </ol>
+			{% include "reviews/review_list_incl.html" with reviews=object.review_set.all only%}
 		{% else %}
 			No reviews have been created yet.
 		{% endif %}
