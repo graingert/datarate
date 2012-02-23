@@ -46,9 +46,9 @@ class Review(m.Model):
 	author = m.ForeignKey(User, editable="false")
 	reviewed_uri = m.ForeignKey(Thing)
 	
-	@m.permalink
 	def get_absolute_url(self):
-		return('review_detail', [str(self.id)])
+		thing_url = self.reviewed_uri.get_absolute_url()
+		return thing_url + '#review-' + str(self.id)
 
 class ExtendedReview(Review):
 	extra = m.TextField()

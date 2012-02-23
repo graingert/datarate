@@ -29,3 +29,11 @@
 	color: #C7C7C7;
 }
 
+.review:target{
+	 box-shadow: 0 0 5px rgba(0, 0, 255, 1);
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 255, 1); 
+    -moz-box-shadow: 0 0 5px rgba(0, 0, 255, 1);
+    border:1px solid rgba(0,0,255, 0.8);
+    border-radius:3px;  
+}
+
