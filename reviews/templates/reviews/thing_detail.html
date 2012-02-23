@@ -12,6 +12,23 @@
 		</details>
 		
 		{% if object.review_set.all %}
+		
+		<table class="table">
+			<thead>
+				<tr>
+					<th>rating</th>
+					<th>count</th>
+				</tr>
+			</thead>
+			<tbody>
+		{% for point in histogram %}
+			<tr>
+				<td>{{point.rating}}</td>
+				<td>{{point.count}}</td>
+			</tr>
+		{% endfor %}
+			</tbody>
+		</table>
 	    <h2>Reviews</h2>
 			{% include "reviews/review_list_incl.html" with reviews=object.review_set.all only%}
 		{% else %}
