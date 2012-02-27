@@ -35,7 +35,7 @@ class Thing(m.Model):
 			object=None,
 			default="No description"
 		)
-		desc = bleach.clean(desc, tags + ["p",])
+		desc = bleach.clean(desc, tags = bleach.ALLOWED_TAGS + ["p",])
 		return str(desc)
 		
 
