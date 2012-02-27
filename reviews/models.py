@@ -48,6 +48,8 @@ class Review(m.Model):
 	author = m.ForeignKey(User, editable="false")
 	reviewed_uri = m.ForeignKey(Thing)
 	
+	unique_together = ("author", "reviewed_uri")
+	
 	def get_absolute_url(self):
 		thing_url = self.reviewed_uri.get_absolute_url()
 		return thing_url + '#review-' + str(self.id)
