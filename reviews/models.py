@@ -4,6 +4,7 @@ from django_extensions.db.fields import AutoSlugField, CreationDateTimeField, Mo
 import urllib, hashlib
 from rdflib import ConjunctiveGraph, Namespace, exceptions
 from rdflib import URIRef, RDFS, RDF, BNode
+import bleach
 # Create your models here.
 
 class Thing(m.Model):
@@ -34,6 +35,7 @@ class Thing(m.Model):
 			object=None,
 			default="No description"
 		)
+		desc = bleach.clean(desc, tags + ["p",])
 		return str(desc)
 		
 
