@@ -35,8 +35,8 @@ class Thing(m.Model):
 			object=None,
 			default="No description"
 		)
-		desc = bleach.clean(desc, tags = bleach.ALLOWED_TAGS + ["p",])
-		return str(desc)
+		desc = bleach.clean(str(desc), tags = bleach.ALLOWED_TAGS + ["p",])
+		return desc
 		
 
 class Review(m.Model):
