@@ -1,7 +1,12 @@
-from django import forms as f
-import models as m
+from django.forms import ModelForm
+from models import Review
 
-class ReviewForm(f.ModelForm):
+from rays.widgets import RangeInput
+
+class ReviewForm(ModelForm):
 	class Meta:
-		model = m.Review
+		model = Review
 		exclude = ("author",)
+		widgets = {
+			'rating': RangeInput(),
+		}
