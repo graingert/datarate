@@ -66,7 +66,7 @@ class UserProfile(m.Model):
     nickname = m.CharField(max_length=30)
     
     def gravatar_url(self):
-		return "http://www.gravatar.com/avatar/" + self.gravatar_hash
+		return "https://secure.gravatar.com/avatar/" + self.gravatar_hash
 		
 
 """
