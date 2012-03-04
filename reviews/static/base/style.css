@@ -19,3 +19,7 @@ body {
 #login a {
 	padding: 8px 0px 0px;
 }
+
+a.admin {
+	color: red !important;
+}

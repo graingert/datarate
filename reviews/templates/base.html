@@ -11,9 +11,9 @@
 
     <!-- Le styles -->
     <link rel="stylesheet" href="{{ STATIC_URL }}3rdparty/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}3rdparty/bootstrap/css/bootstrap-responsive.min.css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}base/style.css" />
 	<link rel="stylesheet" href="{{ STATIC_URL }}reviews/style.css" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}3rdparty/bootstrap/css/bootstrap-responsive.min.css" />
 {% block extra_head %}
 {% endblock %}
   </head>
@@ -34,6 +34,9 @@
 							<li><a href="{% url review %}">Reviews</a><li>
 						{% block nav %}
 						{% endblock %}
+						{% if user.is_authenticated %}
+							<li><a href="{% url admin:index %}" class="admin">Admin</a><li>
+						{% endif %}
 						</ul>
 						<ul class="nav pull-right">
 							<li class="divider-vertical"></li>
