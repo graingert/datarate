@@ -30,7 +30,7 @@
 			</tbody>
 		</table>
 	    <h2>Reviews</h2>
-			{% include "reviews/review_list_incl.html" with reviews=object.review_set.all only%}
+			{% include "reviews/review_list_incl.html" with reviews=reviews.object_list only%}
 		{% else %}
 			No reviews have been created yet.
 		{% endif %}

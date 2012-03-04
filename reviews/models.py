@@ -10,7 +10,7 @@ import bleach
 class Thing(m.Model):
 	uri = m.URLField(verify_exists=False, unique=True)
 	slug = AutoSlugField(populate_from="uri", unique=True, )
-	def __str__(self):
+	def __unicode__(self):
 		return self.label();
 	
 	@m.permalink
@@ -26,7 +26,7 @@ class Thing(m.Model):
 		#return getattr(self, "_graph", self.build_graph())
 	
 	def label(self):
-		return str(self.graph.label(URIRef(self.uri), self.uri))
+		return unicode(self.graph.label(URIRef(self.uri), self.uri))
 	
 	def description(self):
 		desc = self.graph.value(
@@ -35,7 +35,7 @@ class Thing(m.Model):
 			object=None,
 			default="No description"
 		)
-		desc = bleach.clean(str(desc), tags = bleach.ALLOWED_TAGS + ["p",])
+		desc = bleach.clean(unicode(desc), tags = bleach.ALLOWED_TAGS + ["p",])
 		return desc
 		
 

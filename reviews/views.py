@@ -8,13 +8,32 @@ from django.utils.decorators import method_decorator
 from django.db.models import Count
 import urllib
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 class ThingDetailView(DetailView):
 	model = Thing
 	
 	def get_context_data(self, **kwargs):
 		# Call the base implementation first to get a context
 		context = super(ThingDetailView, self).get_context_data(**kwargs)
-		context["histogram"] = context["object"].review_set.values('rating').order_by('-rating').annotate(count = Count('rating'))
+		
+		reviews = context["object"].review_set
+		
+		context["histogram"] = reviews.values('rating').order_by('-rating').annotate(count = Count('rating'))
+		
+		paginator = Paginator(reviews.all(), 10)
+		
+		page = self.request.GET.get('page', 1)
+		
+		try:
+			context["reviews"] = paginator.page(page)
+		except PageNotAnInteger:
+			# If page is not an integer, deliver first page.
+			context["reviews"] = paginator.page(1)
+		except EmptyPage:
+			# If page is out of range (e.g. 9999), deliver last page of results.
+			context["reviews"] = paginator.page(paginator.num_pages)
+		
 		return context
 
 
