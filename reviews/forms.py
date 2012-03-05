@@ -8,5 +8,5 @@ class ReviewForm(ModelForm):
 		model = Review
 		exclude = ("author",)
 		widgets = {
-			'rating': RangeInput(),
+			'rating': RangeInput(min_value=-3, max_value=3, step=2), #uses 4 states preventing any "on the fence choices"
 		}
