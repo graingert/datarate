@@ -36,7 +36,7 @@
 							<li><a href="{% url review %}">Reviews</a><li>
 						{% block nav %}
 						{% endblock %}
-						{% if user.is_authenticated %}
+						{% if user.is_staff %}
 							<li><a href="{% url admin:index %}" class="admin">Admin</a><li>
 						{% endif %}
 						</ul>
