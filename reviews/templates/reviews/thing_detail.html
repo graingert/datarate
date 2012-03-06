@@ -31,6 +31,28 @@
 		</table>
 	    <h2>Reviews</h2>
 			{% include "reviews/review_list_incl.html" with reviews=reviews.object_list only%}
+		<div class="pagination">
+		    <ul>
+				{% if reviews.has_previous %}
+					<li><a href="?page={{ reviews.previous_page_number }}">Prev</a></li>
+				{% else %}
+					<li class="disabled"><a href="#">Prev</a></li>
+				{% endif %}
+			    {% for page in reviews.page_range %}
+						<li {% if page == reviews.number %} class="active" {% endif %}>
+							<a href="?page={{ page }}">{{page}}</a>
+						</li>
+				{% endfor %}
+				{% if reviews.has_next %}
+					<li><a href="?page={{ reviews.next_page_number }}">Next</a></li>
+				{% else %}
+					<li class="disabled"><a href="#">Next</a></li>
+				{% endif %}
+		    </ul>
+	    </div>
+		
+		
+		
 		{% else %}
 			No reviews have been created yet.
 		{% endif %}
