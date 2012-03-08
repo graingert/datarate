@@ -1,6 +1,10 @@
 import reviews.models as m
-from django.contrib import admin
+from django.contrib.admin import site, ModelAdmin
 
-admin.site.register(m.Review)
-admin.site.register(m.Thing)
+class ReviewAdmin(ModelAdmin):
+	list_display = ('rating', '__unicode__')
+	pass
+
+site.register(m.Review, ReviewAdmin)
+site.register(m.Thing)
 
