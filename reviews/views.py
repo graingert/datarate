@@ -5,7 +5,7 @@ from django.views.generic import *
 from django.views.generic.edit import ModelFormMixin
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.db.models import Count
+from django.db.models import Count, Sum
 import urllib
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
