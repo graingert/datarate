@@ -10,6 +10,22 @@ import urllib
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+class PreviewView(TemplateView):
+	template_name="index.html"
+	
+	def get_context_data(self, **kwargs):
+		# Call the base implementation first to get a context
+		context = super(PreviewView, self).get_context_data(**kwargs)
+		
+		things = Things.objects
+		total_scores = things.annotate(Sum('review__rating'))
+		
+		context["best"] = total_scores.order_by("review__rating__sum")[:5]
+		context["worst"] = total_scores.order_by("-review__rating__sum")[:5]
+		context["histogram"] = reviews.values('rating').order_by('-rating').annotate(count = Count('rating'))
+		
+		return context
+
 class ThingDetailView(DetailView):
 	model = Thing
 	
