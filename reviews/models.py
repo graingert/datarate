@@ -42,7 +42,7 @@ class Thing(m.Model):
 class Review(m.Model):
 	date_created = CreationDateTimeField()
 	date_modified = ModificationDateTimeField()
-	title = m.CharField(max_length=128)
+	#title = m.CharField(max_length=128)
 	text = m.TextField()
 	rating = m.IntegerField()
 	author = m.ForeignKey(User, editable="false")
@@ -53,6 +53,9 @@ class Review(m.Model):
 	def get_absolute_url(self):
 		thing_url = self.reviewed_uri.get_absolute_url()
 		return thing_url + '#review-' + str(self.id)
+		
+	def __unicode__():
+		return self.text[:140]
 
 class ExtendedReview(Review):
 	extra = m.TextField()
