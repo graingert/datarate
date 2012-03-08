@@ -17,7 +17,7 @@ class PreviewView(TemplateView):
 		# Call the base implementation first to get a context
 		context = super(PreviewView, self).get_context_data(**kwargs)
 		
-		things = Things.objects
+		things = Thing.objects
 		total_scores = things.annotate(Sum('review__rating'))
 		
 		context["best"] = total_scores.order_by("review__rating__sum")[:5]
