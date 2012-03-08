@@ -54,7 +54,7 @@ class Review(m.Model):
 		thing_url = self.reviewed_uri.get_absolute_url()
 		return thing_url + '#review-' + str(self.id)
 		
-	def __unicode__():
+	def __unicode__(self):
 		return self.text[:140]
 
 class ExtendedReview(Review):
