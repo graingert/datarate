@@ -10,11 +10,13 @@
 							<img class="avatar" src="{{ review.author.get_profile.gravatar_url }}" />
 							<span class="nickname">{{ review.author.get_profile.nickname }}</span>
 						</address>
+					{% comment %}
 					{% if not thing %}
 					<a href="{{review.reviewed_uri.get_absolute_url}}">
 						<span class="uri">{{review.reviewed_uri}}</span>
 					</a>
 					{% endif %}
+					{% endcomment %}
 				</header>
 				<p>
 					{{review.text}}
