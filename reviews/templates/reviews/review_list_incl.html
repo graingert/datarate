@@ -1,7 +1,7 @@
 <ol class="review-stream well">
 	{% for review in reviews %}
 		<li>
-			<article id="review-{{review.id}}" class="review">
+			<article id="review-{{review.id}}" class="review" data-rating="{{review.rating}}">
 				<header>
 						<span class="rating">{{review.rating}}</span>
 						<span class="title">{{ review.title }}</span>

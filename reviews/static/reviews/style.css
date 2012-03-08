@@ -29,6 +29,22 @@
 	color: #C7C7C7;
 }
 
+.review[data-rating="-3"] {
+	background-color: red;
+}
+
+.review[data-rating="-1"] {
+	background-color: #669900;
+}
+
+.review[data-rating="1"] {
+	background-color: #B24D00;
+}
+
+.review[data-rating="3"] {
+	background-color: green;
+}
+
 .review:target{
 	 box-shadow: 0 0 5px rgba(0, 0, 255, 1);
     -webkit-box-shadow: 0 0 5px rgba(0, 0, 255, 1); 
