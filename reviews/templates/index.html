@@ -21,6 +21,7 @@
 			<a href="{{ thing.get_absolute_url }}">
 				<h2 class="name">{{thing}}</h2>
 			</a>
+			Total rating = <span class="total">{{thing.review__rating__sum}}</span>
 		</header>
 		<a class="btn" href="{{ thing.get_absolute_url }}">View Reviews about this Thing</a>
 		<a class="btn btn-primary" href="{% url create-review thing.slug %}">Review this Thing</a>
@@ -41,6 +42,7 @@
 			<a href="{{ thing.get_absolute_url }}">
 				<h2 class="name">{{thing}}</h2>
 			</a>
+			Total rating = <span class="total">{{thing.review__rating__sum}}</span>
 		</header>
 		<a class="btn" href="{{ thing.get_absolute_url }}">View Reviews about this Thing</a>
 		<a class="btn btn-primary" href="{% url create-review thing.slug %}">Review this Thing</a>
