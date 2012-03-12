@@ -24,11 +24,6 @@
 	font-weight: bold;
 }
 
-.review .date {
-	font-weight: normal;
-	color: #C7C7C7;
-}
-
 .review:target{
 	 box-shadow: 0 0 5px rgba(0, 0, 255, 1);
     -webkit-box-shadow: 0 0 5px rgba(0, 0, 255, 1); 
