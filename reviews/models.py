@@ -10,7 +10,7 @@ import bleach
 # Create your models here.
 
 class StepValidator():
-	def __init__(min_value, step):
+	def __init__(self, min_value, step):
 		self.min_value = min_value
 		self.step = step
 		
