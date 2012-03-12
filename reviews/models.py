@@ -15,7 +15,7 @@ class StepValidator():
 		self.step = step
 		
 	def __call__(self, value):
-		if (value - min_value)% step != 0:
+		if (value - self.min_value)% self.step != 0:
 			raise ValidationError(u'%s does not have the correct step' % value)
 		
 
