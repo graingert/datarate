@@ -3,12 +3,11 @@
 		<li>
 			<article id="review-{{review.id}}" class="review" data-rating="{{review.rating}}">
 				<header>
-						<span class="rating">{{review.rating}}</span>
-						<span class="title">{{ review.title }}</span>
-						<span class="date">{{review.date_created }}</span>
+						<span class="nickname">{{ review.author.get_profile.nickname }}</span>
+						on <span class="date">{{review.date_created }}</span>
+						rates this <span class="rating" data-value="{{review.rating}}">{{review.stars}}</span>
 						<address class="author">
 							<img class="avatar" src="{{ review.author.get_profile.gravatar_url }}" />
-							<span class="nickname">{{ review.author.get_profile.nickname }}</span>
 						</address>
 					{% comment %}
 					{% if not thing %}
