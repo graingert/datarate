@@ -20,8 +20,8 @@ class PreviewView(TemplateView):
 		things = Thing.objects
 		total_scores = things.annotate(Sum('review__rating'))
 		
-		context["best"] = total_scores.order_by("review__rating__sum")[:5]
-		context["worst"] = total_scores.order_by("-review__rating__sum")[:5]
+		context["best"] = total_scores.order_by("-review__rating__sum")[:5]
+		context["worst"] = total_scores.order_by("review__rating__sum")[:5]
 				
 		return context
 
