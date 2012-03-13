@@ -34,9 +34,7 @@ class ThingDetailView(DetailView):
 		context = super(ThingDetailView, self).get_context_data(**kwargs)
 		
 		reviews = context["object"].review_set
-		
-		context["histogram"] = reviews.values('rating').order_by('-rating').annotate(count = Count('rating'))
-		
+				
 		paginator = Paginator(reviews.all().order_by("date_created"), 10)
 		
 		page = self.request.GET.get('page', 1)

@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django_extensions.db.fields import AutoSlugField, CreationDateTimeField, ModificationDateTimeField
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+from django.db.models import Count, Sum
+from GChartWrapper import Pie
+
 import urllib, hashlib
 from rdflib import ConjunctiveGraph, Namespace, exceptions
 from rdflib import URIRef, RDFS, RDF, BNode
@@ -58,7 +61,21 @@ class Thing(m.Model):
 		)
 		desc = bleach.clean(unicode(desc), tags = bleach.ALLOWED_TAGS + ["p",])
 		return desc
+	
+	def histogram(self):
+		return self.review_set.values('rating').order_by('-rating').annotate(count = Count('rating'))
 		
+	def chart(self):
+		rating=[]
+		count=[]
+		
+		histogram = self.histogram()
+		
+		for point in histogram:
+			rating.append(point["rating"])
+			count.append(point["count"])
+		
+		return unicode(Pie(count).label(*rating))
 
 class Review(m.Model):
 	date_created = CreationDateTimeField()
