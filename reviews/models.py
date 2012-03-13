@@ -75,7 +75,7 @@ class Thing(m.Model):
 			rating.append(point["rating"])
 			count.append(point["count"])
 		
-		return unicode(Pie(count).label(*rating))
+		return unicode(Pie(count,"https://chart.googleapis.com/chart?").label(*rating))
 
 class Review(m.Model):
 	date_created = CreationDateTimeField()
