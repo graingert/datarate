@@ -1,19 +1,5 @@
 {% extends "base.html" %} 
 {% block content %}
 	<h2>Things</h2>
-	<ol class="thing-stream">
-	{% for thing in object_list %}
-	<li>
-	<article class="thing">
-		<header>
-			<a href="{{ thing.get_absolute_url }}">
-				<h2 class="name">{{thing}}</h2>
-			</a>
-		</header>
-		<a class="btn" href="{{ thing.get_absolute_url }}">View Reviews about this Thing</a>
-		<a class="btn btn-primary" href="{% url create-review thing.slug %}">Review this Thing</a>
-	</article>
-	</li>
-	{% endfor %}
-	</ol>
+    {% include "reviews/thing_list_incl.html" with things=object_list only %}
 {% endblock content%}

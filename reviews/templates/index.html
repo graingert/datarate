@@ -13,43 +13,13 @@
       <div class="row">
         <div class="span4">
 		<h2>Best Things</h2>
-	<ol class="thing-stream">
-	{% for thing in best %}
-	<li>
-	<article class="thing">
-		<header>
-			<a href="{{ thing.get_absolute_url }}">
-				<h2 class="name">{{thing}}</h2>
-			</a>
-			Total rating = <span class="total">{{thing.review__rating__sum}}</span>
-		</header>
-		<a class="btn" href="{{ thing.get_absolute_url }}">View Reviews about this Thing</a>
-		<a class="btn btn-primary" href="{% url create-review thing.slug %}">Review this Thing</a>
-	</article>
-	</li>
-	{% endfor %}
-	</ol>
+              {% include "reviews/thing_list_incl.html" with things=best only %}
 		<p><a class="btn" href="{% url thing %}">More &raquo;</a></p>
         </div>
 
         <div class="span4">
           <h2>Worst Things</h2>
-	<ol class="thing-stream">
-	{% for thing in worst %}
-	<li>
-	<article class="thing">
-		<header>
-			<a href="{{ thing.get_absolute_url }}">
-				<h2 class="name">{{thing}}</h2>
-			</a>
-			Total rating = <span class="total">{{thing.review__rating__sum}}</span>
-		</header>
-		<a class="btn" href="{{ thing.get_absolute_url }}">View Reviews about this Thing</a>
-		<a class="btn btn-primary" href="{% url create-review thing.slug %}">Review this Thing</a>
-	</article>
-	</li>
-	{% endfor %}
-	</ol>
+              {% include "reviews/thing_list_incl.html" with things=worst only %}
           <p><a class="btn" href="{% url thing %}">More &raquo;</a></p>
         </div>
         
