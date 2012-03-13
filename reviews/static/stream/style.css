@@ -9,3 +9,7 @@
 .stream li:last-child {
 	border: none;
 }
+
+.stream li article {
+	padding: 9px 12px;
+}
