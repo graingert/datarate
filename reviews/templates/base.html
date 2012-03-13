@@ -10,10 +10,11 @@
 	<![endif]-->
 	
     <!-- Le styles -->
+	<link rel="stylesheet" href="{{ STATIC_URL }}base/style.css" type="text/css" />
+	<!-- base must be on top to prevent top bar moving down on smaller screens -->
     <link rel="stylesheet" href="{{ STATIC_URL }}3rdparty/bootstrap/spacelab/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}3rdparty/bootstrap/css/bootstrap-responsive.min.css" type="text/css" />
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}base/style.css" type="text/css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}stream/style.css" type="text/css" />
 	<link rel="stylesheet" href="{{ STATIC_URL }}reviews/style.css" type="text/css" />
 {% block extra_head %}
