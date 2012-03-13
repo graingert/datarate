@@ -5,7 +5,7 @@ from django.views.generic import *
 from django.views.generic.edit import ModelFormMixin
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, Avg
 import urllib
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -28,6 +28,7 @@ class PreviewView(TemplateView):
 
 class ThingDetailView(DetailView):
 	model = Thing
+	queryset = Thing.objects.all().annotate(Sum('review__rating'), Avg('review__rating'))
 	
 	def get_context_data(self, **kwargs):
 		# Call the base implementation first to get a context
