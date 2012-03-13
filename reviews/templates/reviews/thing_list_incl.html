@@ -10,8 +10,10 @@
 				Total rating = <span class="total">{{thing.review__rating__sum}}</span>
 			{% endif %}
 		</header>
-		<a class="btn" href="{{ thing.get_absolute_url }}">View Reviews about this Thing</a>
-		<a class="btn btn-primary" href="{% url create-review thing.slug %}">Review this Thing</a>
+		<div class="btn-group">
+			<a class="btn" href="{{ thing.get_absolute_url }}">View Reviews</a>
+			<a class="btn btn-primary" href="{% url create-review thing.slug %}">Review</a>
+		</div>
 	</article>
 	</li>
 	{% endfor %}
