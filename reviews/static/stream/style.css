@@ -1,0 +1,11 @@
+.stream {
+	list-style: none;
+	padding: 0;
+}
+
+.stream li {
+	border-bottom: 1px solid #C7C7C7;
+}
+.stream li:last-child {
+	border: none;
+}

@@ -1,15 +1,3 @@
-.review-stream {
-	list-style: none;
-	padding: 0;
-}
-
-.review-stream li {
-	border-bottom: 1px solid #C7C7C7;
-}
-.review-stream li:last-child {
-	border: none;
-}
-
 .review {
 	padding: 9px 12px;
 }
