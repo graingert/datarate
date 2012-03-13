@@ -22,7 +22,7 @@ class PreviewView(TemplateView):
 		
 		context["best"] = total_scores.order_by("-review__rating__sum")[:5]
 		context["worst"] = total_scores.order_by("review__rating__sum")[:5]
-		context["reviews"] = Review.objects.all().order_by("date_created")[:5]
+		context["reviews"] = Review.objects.all().order_by("-date_created")[:5]
 				
 		return context
 
