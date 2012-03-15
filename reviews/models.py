@@ -34,6 +34,7 @@ class RangeField(m.IntegerField):
 class Thing(m.Model):
 	uri = m.URLField(verify_exists=False, unique=True)
 	slug = AutoSlugField(populate_from="uri", unique=True, )
+	
 	def __unicode__(self):
 		return self.label();
 	
@@ -72,10 +73,13 @@ class Thing(m.Model):
 		histogram = self.histogram()
 		
 		for point in histogram:
-			rating.append(point["rating"])
+			
+			rating_map = {-3:"Terrible", -1 : "Bad", 1 : "Good", 3 : "Great"}
+			
+			rating.append(rating_map[point["rating"]])
 			count.append(point["count"])
 		
-		return unicode(Pie(count,"https://chart.googleapis.com/chart?").label(*rating))
+		return unicode(Pie(count,apiurl="https://chart.googleapis.com/chart?").label(*rating))
 
 class Review(m.Model):
 	date_created = CreationDateTimeField()
