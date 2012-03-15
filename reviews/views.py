@@ -39,6 +39,13 @@ class ThingRedirectView(RedirectView):
 		#TODO: Try to create object if it does not exist rather than 404
 		
 		return get_object_or_404(Thing, uri=uri).get_absolute_url() + "." + kwargs["format"]
+	
+	def get(self, request, *args, **kwargs):
+		response = super(ThingRedirectView, self).get(request, *args, **kwargs)
+		response['Access-Control-Allow-Origin'] = '*'
+		
+		return response
+		
 
 
 class ThingDetailView(DetailView):
@@ -66,7 +73,7 @@ class ThingDetailView(DetailView):
 		
 		return context
 	
-	def render_to_response(self, context):
+	def render_to_response(self, context, **response_kwargs):
 		fmt = self.kwargs.get("format", "html")
 		
 		if fmt == "json":
@@ -77,10 +84,14 @@ class ThingDetailView(DetailView):
 				count = thing.review__count
 			)
 			
-			return http.HttpResponse(json.dumps(output),
+			response = http.HttpResponse(json.dumps(output),
 				content_type='application/json')
+				
+			response['Access-Control-Allow-Origin'] = '*'
+			
+			return response
 		else:
-			return super(ThingDetailView, self).render_to_response(context)
+			return super(ThingDetailView, self).render_to_response(context, **response_kwargs)
 
 
 
