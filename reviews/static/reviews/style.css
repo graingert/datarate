@@ -16,32 +16,22 @@
     border-radius:3px;  
 }
 
-.rating[data-value="-5"]:after {
-	content: "☆☆☆☆☆";
-	color: red;
-}
-
 .rating[data-value="-3"]:after {
-	content: "★☆☆☆☆";
+	content: "Terrible";
 	color: red;
 }
 
 .rating[data-value="-1"]:after {
-	content: "★★☆☆☆";
+	content: "Bad";
 	color: red;
 }
 
 .rating[data-value="1"]:after {
-	content: "★★★☆☆";
+	content: "Good";
 	color: green;
 }
 
 .rating[data-value="3"]:after {
-	content: "★★★★☆";
-	color: green;
-}
-
-.rating[data-value="5"]:after {
-	content: "★★★★★";
+	content: "Great";
 	color: green;
 }
