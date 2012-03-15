@@ -7,8 +7,11 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.db.models import Count, Sum, Avg
 import urllib
-
+from django import http
+from django.utils import simplejson as json
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import get_object_or_404
+	
 
 class PreviewView(TemplateView):
 	template_name="index.html"
@@ -26,9 +29,21 @@ class PreviewView(TemplateView):
 				
 		return context
 
+class ThingRedirectView(RedirectView):
+	permanent = False
+	query_string = False
+	
+	def get_redirect_url(self, **kwargs):
+		uri = self.request.GET["src"]
+		
+		#TODO: Try to create object if it does not exist rather than 404
+		
+		return get_object_or_404(Thing, uri=uri).get_absolute_url() + "." + kwargs["format"]
+
+
 class ThingDetailView(DetailView):
 	model = Thing
-	queryset = Thing.objects.all().annotate(Sum('review__rating'), Avg('review__rating'))
+	queryset = Thing.objects.all().annotate(Sum('review__rating'), Avg('review__rating'), Count('review'))
 	
 	def get_context_data(self, **kwargs):
 		# Call the base implementation first to get a context
@@ -50,6 +65,23 @@ class ThingDetailView(DetailView):
 			context["reviews"] = paginator.page(paginator.num_pages)
 		
 		return context
+	
+	def render_to_response(self, context):
+		fmt = self.kwargs.get("format", "html")
+		
+		if fmt == "json":
+			thing = context["object"]
+			output = dict(src = thing.uri,
+				total = thing.review__rating__sum,
+				average = thing.review__rating__avg,
+				count = thing.review__count
+			)
+			
+			return http.HttpResponse(json.dumps(output),
+				content_type='application/json')
+		else:
+			return super(ThingDetailView, self).render_to_response(context)
+
 
 
 class ReviewCreateView(CreateView):
