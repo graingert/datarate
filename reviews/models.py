@@ -45,8 +45,9 @@ class Thing(m.Model):
 	@property
 	def graph(self):
 		if not hasattr(self, "_graph"):
-			self._graph = ConjunctiveGraph()
-			self._graph.parse(self.uri)
+			graph = ConjunctiveGraph()
+			graph.parse(self.uri)
+			self._graph = graph
 		return self._graph
 		#return getattr(self, "_graph", self.build_graph())
 	

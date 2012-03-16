@@ -1,6 +1,6 @@
 # Create your views here.
 from reviews.models import Thing, Review
-from reviews.forms import ReviewForm
+from reviews.forms import ReviewForm, ThingForm
 from django.views.generic import *
 from django.views.generic.edit import ModelFormMixin
 from django.contrib.auth.decorators import login_required
@@ -10,7 +10,7 @@ import urllib
 from django import http
 from django.utils import simplejson as json
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 	
 
 class PreviewView(TemplateView):
@@ -33,12 +33,35 @@ class ThingRedirectView(RedirectView):
 	permanent = False
 	query_string = False
 	
+	
 	def get_redirect_url(self, **kwargs):
-		uri = self.request.GET["src"]
+
+
+		uri = self.request.GET["uri"]
 		
-		#TODO: Try to create object if it does not exist rather than 404
+		try:
+			#try to get a pre-existing object from the DB.
+			thing = Thing.objects.get(uri=uri)
+		except ObjectDoesNotExist, e:
+			#Right we don't have one, now to validate the Thing.
+			thingForm = ThingForm(self.request.GET)
+			
+			
+			if thingForm.is_valid():
+				#Awesome it's a valid uri.
+				thing = thingForm.save(commit = False)
+				print "valid form"
+				try:
+					thing.graph
+					#Okay it looks like we can add it to the db
+					thing.save()
+				except:
+					raise http.Http404
+			else:
+				#Uh oh it's not a valid uri
+				raise http.Http404
 		
-		return get_object_or_404(Thing, uri=uri).get_absolute_url() + "." + kwargs["format"]
+		return thing.get_absolute_url() + "." + kwargs["format"]
 	
 	def get(self, request, *args, **kwargs):
 		response = super(ThingRedirectView, self).get(request, *args, **kwargs)
