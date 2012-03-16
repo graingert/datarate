@@ -36,7 +36,7 @@ class Thing(m.Model):
 	slug = AutoSlugField(populate_from="uri", unique=True, )
 	
 	def __unicode__(self):
-		return self.label();
+		return self.label()
 	
 	@m.permalink
 	def get_absolute_url(self):
