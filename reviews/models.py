@@ -111,8 +111,12 @@ class UserProfile(m.Model):
     gravatar_hash = m.CharField(max_length=32)
     nickname = m.CharField(max_length=30)
     
+    
+    #https://en.gravatar.com/site/implement/images/python/
     def gravatar_url(self):
-		return "https://secure.gravatar.com/avatar/" + self.gravatar_hash
+		gravatar_url = "https://secure.gravatar.com/avatar/" + self.gravatar_hash + "?"
+		gravatar_url += urllib.urlencode({'d':"retro"})
+		return gravatar_url
 		
 
 """
