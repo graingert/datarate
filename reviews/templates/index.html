@@ -21,7 +21,7 @@
         
         <div class="span4">
           <h2>Recent Reviews</h2>
-           {% include "reviews/review_list_incl.html" with reviews=reviews only %}
+           {% include "reviews/review_list_incl.html" with reviews=reviews request=request only%}
           <p><a class="btn" href="{% url review %}">More &raquo;</a></p>
         </div>
       </div>
