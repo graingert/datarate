@@ -91,14 +91,15 @@ class Review(m.Model):
 	author = m.ForeignKey(User, editable=False)
 	reviewed_uri = m.ForeignKey(Thing)
 	
-	unique_together = ("author", "reviewed_uri")
-	
 	def get_absolute_url(self):
 		thing_url = self.reviewed_uri.get_absolute_url()
 		return thing_url + '#review-' + str(self.id)
 		
 	def __unicode__(self):
 		return self.text[:140]
+		
+	class Meta:
+		unique_together = ("author", "reviewed_uri")
 
 class ExtendedReview(Review):
 	extra = m.TextField()
