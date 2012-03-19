@@ -5,17 +5,18 @@
 				<header>
 						<span class="nickname">{{ review.author.get_profile.nickname }}</span>
 						on <span class="date">{{review.date_created }}</span>
-						rates this <span class="rating" data-value="{{review.rating}}">{{review.stars}}</span>
+						gave
+						{% if not thing %}
+						<a href="{{review.reviewed_uri.get_absolute_url}}">
+							<span class="uri">{{review.reviewed_uri}}</span>
+						</a>
+						{% else %}
+						this
+						{% endif %}
+						a rating of <span class="rating" data-value="{{review.rating}}">{{review.stars}}</span>
 						<address class="author">
 							<img class="avatar" src="{{ review.author.get_profile.gravatar_url }}" />
 						</address>
-					{% comment %}
-					{% if not thing %}
-					<a href="{{review.reviewed_uri.get_absolute_url}}">
-						<span class="uri">{{review.reviewed_uri}}</span>
-					</a>
-					{% endif %}
-					{% endcomment %}
 				</header>
 				<p>
 					{{review.text}}

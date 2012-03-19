@@ -35,7 +35,7 @@
 		</ul>
 		
 	    <h2>Reviews</h2>
-			{% include "reviews/review_list_incl.html" with reviews=reviews.object_list request=request only%}
+			{% include "reviews/review_list_incl.html" with reviews=reviews.object_list thing=object request=request only%}
 		<div class="pagination">
 		    <ul>
 				{% if reviews.has_previous %}
