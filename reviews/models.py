@@ -88,7 +88,7 @@ class Review(m.Model):
 	#title = m.CharField(max_length=128)
 	text = m.TextField()
 	rating = RangeField(min_value=-3, max_value = 3, step = 2)
-	author = m.ForeignKey(User, editable="false")
+	author = m.ForeignKey(User, editable=False)
 	reviewed_uri = m.ForeignKey(Thing)
 	
 	unique_together = ("author", "reviewed_uri")
