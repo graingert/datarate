@@ -20,6 +20,12 @@
 				<p>
 					{{review.text}}
 				</p>
+				
+				{% if review.author == request.user %}
+				<div class="btn-group">
+					<a class="btn" href="{% url edit-review review.id %}">Edit</a>
+				</div>
+				{% endif %}
 			</article>
 		</li>
 	{% endfor %}
