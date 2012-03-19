@@ -2,7 +2,7 @@
 from reviews.models import Thing, Review
 from reviews.forms import ReviewForm, ThingForm
 from django.views.generic import *
-from django.views.generic.edit import ModelFormMixin
+from django.views.generic.edit import ModelFormMixin, ProcessFormView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.db.models import Count, Sum, Avg
@@ -136,4 +136,24 @@ class ReviewCreateView(CreateView):
 	def get_initial(self):
 		self.initial["reviewed_uri"] = Thing.objects.get(slug=self.kwargs["slug"])
 		return self.initial
+		
+class ReviewUpdateView(UpdateView):
+	model = Review
+	form_class = ReviewForm
+	
+	@method_decorator(login_required)
+	def dispatch(self, *args, **kwargs):
+		return super(ReviewUpdateView, self).dispatch(*args, **kwargs)
+	
+	
+	
+	
+	#Check to see if the user is the correct user
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		if self.object.author != request.user:
+			return http.HttpResponseForbidden()
+		else:
+			print "test"
+			return super(ReviewUpdateView, self).post(self, request, *args, **kwargs)
 		
