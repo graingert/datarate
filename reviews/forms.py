@@ -1,5 +1,5 @@
 from django.forms import ModelForm, HiddenInput
-from models import Review, Thing
+from models import Thing, Review, UserProfile
 from django.core.exceptions import ValidationError
 from rays.widgets import RangeInput
 
@@ -29,3 +29,7 @@ class ThingForm(ModelForm):
 		else:
 			raise ValidationError("Not an acceptable netloc")
 		
+class ProfileForm(ModelForm):
+	class Meta:
+		model = UserProfile
+		fields = ("nickname",)

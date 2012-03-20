@@ -107,17 +107,27 @@ class ExtendedReview(Review):
 from django.db.models.signals import post_save, pre_save
 
 class UserProfile(m.Model):
-    # This field is required.
-    user = m.OneToOneField(User)
-    gravatar_hash = m.CharField(max_length=32)
-    nickname = m.CharField(max_length=30)
-    
+	# This field is required.
+	user = m.OneToOneField(User)
+	gravatar_hash = m.CharField(max_length=32)
+	nickname = m.CharField(max_length=30)
     
     #https://en.gravatar.com/site/implement/images/python/
-    def gravatar_url(self):
+	def gravatar_url(self, size=80):
 		gravatar_url = "https://secure.gravatar.com/avatar/" + self.gravatar_hash + "?"
-		gravatar_url += urllib.urlencode({'d':"retro"})
+		gravatar_url += urllib.urlencode({'d':"retro", 's':str(size)})
 		return gravatar_url
+	
+	def big_gravatar_url(self):
+		return self.gravatar_url(size=512)
+	
+	def __unicode__(self):
+		return self.user.email
+	
+	@m.permalink
+	def get_absolute_url(self):
+		return('profile', [self.pk])
+	
 		
 
 """

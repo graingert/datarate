@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+    {{ form.media.css }}
+{% endblock %}
+
+
+{% block content %}
+
+	<div class="row">
+		<figure class="thumbnail span4 offset4 profile">
+			<img class="avatar" src="{{ object.big_gravatar_url }}" />
+			<figcaption class="nickname caption">
+			{% if request.user == object.user %}
+				<form method="post" action="">
+					{% csrf_token %}
+					{{ form.as_p }}
+					<input type="submit" value="Submit" />
+				</form>
+			{% else %}
+				{{ object.nickname }}
+			{% endif %}
+			</figcaption>
+		</figure>
+	</div>
+{% endblock content%}
+
+{% block extra_scripts %}
+ {{ form.media.js }}
+{% endblock %}

@@ -3,7 +3,9 @@
 		<li>
 			<article id="review-{{review.id}}" class="review" data-rating="{{review.rating}}">
 				<header>
-						<span class="nickname">{{ review.author.get_profile.nickname }}</span>
+						<a href="{{review.author.get_profile.get_absolute_url}}">
+							<span class="nickname">{{ review.author.get_profile.nickname }}</span>
+						</a>
 						on <span class="date">{{review.date_created }}</span>
 						gave
 						{% if not thing %}

@@ -1,6 +1,7 @@
 # Create your views here.
-from reviews.models import Thing, Review
-from reviews.forms import ReviewForm, ThingForm
+from reviews.models import Thing, Review, UserProfile
+from django.contrib.auth.models import User
+from reviews.forms import ReviewForm, ThingForm, ProfileForm
 from django.views.generic import *
 from django.views.generic.edit import ModelFormMixin, ProcessFormView
 from django.contrib.auth.decorators import login_required
@@ -146,14 +147,28 @@ class ReviewUpdateView(UpdateView):
 		return super(ReviewUpdateView, self).dispatch(*args, **kwargs)
 	
 	
-	
-	
 	#Check to see if the user is the correct user
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object()
 		if self.object.author != request.user:
 			return http.HttpResponseForbidden()
 		else:
-			print "test"
 			return super(ReviewUpdateView, self).post(self, request, *args, **kwargs)
+			
+class ProfileUpdateView(UpdateView):
+	model = UserProfile
+	form_class = ProfileForm
+	queryset = User.objects.all()
+		
+	def get_object(self):
+		user = super(ProfileUpdateView, self).get_object()
+		return user.get_profile()
+	
+	#Check to see if the user is the correct user
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		if self.object.user != request.user:
+			return http.HttpResponseForbidden()
+		else:
+			return super(ProfileUpdateView, self).post(self, request, *args, **kwargs)
 		
