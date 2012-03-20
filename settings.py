@@ -189,6 +189,8 @@ LOGIN_REDIRECT_URL = '/' #TODO: send to profile
 LOGIN_URL = '/sign-in'
 LOGIN_REDIRECT_URL_FAILURE = '/'
 
+SESSION_COOKIE_SECURE = True
+
 try:
 	from local_settings import *
 except ImportError as e:
