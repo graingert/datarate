@@ -129,13 +129,14 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'reviews',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    'reviews',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'django_extensions',
     'rays',
+    'django_evolution',
 )
 
 # A sample logging configuration. The only tangible logging
