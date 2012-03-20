@@ -50,7 +50,7 @@
 										<img class="avatar" src="{{user.get_profile.gravatar_url}}" />
 										<span class="username">{{user.email}}</span> <b class="caret"></b></a>
 									<ul class="dropdown-menu">
-										<li><a href="#">Profile</a></li>
+										<li><a href="{{ user.get_profile.get_absolute_url }}">Profile</a></li>
 										<li class="divider"></li>
 										<li><a href="{% url logout %}">Sign out</a></li>
 									</ul>
