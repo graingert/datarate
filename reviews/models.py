@@ -2,7 +2,7 @@ from django.db import models as m
 from django.contrib.auth.models import User
 from django_extensions.db.fields import AutoSlugField, CreationDateTimeField, ModificationDateTimeField
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+from django.db.models.signals import post_save, pre_save
 from django.db.models import Count, Sum
 from GChartWrapper import Pie
 
@@ -34,9 +34,10 @@ class RangeField(m.IntegerField):
 class Thing(m.Model):
 	uri = m.URLField(verify_exists=False, unique=True)
 	slug = AutoSlugField(populate_from="uri", unique=True, )
+	label = m.CharField(max_length=30)
 	
 	def __unicode__(self):
-		return self.label()
+		return self.label
 	
 	@m.permalink
 	def get_absolute_url(self):
@@ -51,8 +52,13 @@ class Thing(m.Model):
 		return self._graph
 		#return getattr(self, "_graph", self.build_graph())
 	
-	def label(self):
+	def get_label(self):
 		return unicode(self.graph.label(URIRef(self.uri), self.uri))
+		
+		
+	def save(self):
+		self.label = self.get_label()[:30]
+		super(Thing, self).save()
 	
 	def description(self):
 		desc = self.graph.value(
@@ -103,8 +109,6 @@ class Review(m.Model):
 
 class ExtendedReview(Review):
 	extra = m.TextField()
-
-from django.db.models.signals import post_save, pre_save
 
 class UserProfile(m.Model):
 	# This field is required.
