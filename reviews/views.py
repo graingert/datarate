@@ -102,10 +102,11 @@ class ThingDetailView(DetailView):
 		
 		if fmt == "json":
 			thing = context["object"]
-			output = dict(src = thing.uri,
+			output = dict(uri = thing.uri,
 				total = thing.review__rating__sum,
 				average = thing.review__rating__avg,
-				count = thing.review__count
+				count = thing.review__count,
+				reviews = thing.get_absolute_url(),
 			)
 			
 			response = http.HttpResponse(json.dumps(output),
