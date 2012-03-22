@@ -74,19 +74,41 @@ class Thing(m.Model):
 		return self.review_set.values('rating').order_by('-rating').annotate(count = Count('rating'))
 		
 	def chart(self):
-		rating=[]
+		labels=[]
 		count=[]
+		colors=[]
 		
 		histogram = self.histogram()
 		
+		style_map = {
+				-3:
+					{
+						"label" :"Terrible",
+						"color": "CC0000" 
+					},
+				-1 : {
+						"label" :"Bad",
+						"color": "CC6600" 
+					},
+				1 : {
+						"label" :"Good",
+						"color": "99CC00" 
+					},
+				3 : {
+						"label" :"Great",
+						"color": "00CC00" 
+					},
+			}
+		
+		
 		for point in histogram:
+			style = style_map[point["rating"]]
 			
-			rating_map = {-3:"Terrible", -1 : "Bad", 1 : "Good", 3 : "Great"}
-			
-			rating.append(rating_map[point["rating"]])
+			labels.append(style["label"])
+			colors.append(style["color"])
 			count.append(point["count"])
 		
-		return unicode(Pie(count,apiurl="https://chart.googleapis.com/chart?").label(*rating))
+		return unicode(Pie(count,apiurl="https://chart.googleapis.com/chart?").color(*colors).label(*labels))
 
 class Review(m.Model):
 	date_created = CreationDateTimeField()
