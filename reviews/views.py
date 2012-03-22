@@ -36,10 +36,11 @@ class ThingRedirectView(RedirectView):
 	
 	
 	def get_redirect_url(self, **kwargs):
-
-
-		uri = self.request.GET["uri"]
 		
+		if "uri" not in self.request.GET:
+			raise http.Http404
+		else:
+			uri = self.request.GET["uri"]
 		try:
 			#try to get a pre-existing object from the DB.
 			thing = Thing.objects.get(uri=uri)
