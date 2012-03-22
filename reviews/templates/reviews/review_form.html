@@ -6,6 +6,8 @@
 
 
 {% block content %}
+
+<h1>Reviewing <a href="{{ thing.get_absolute_url }}">{{thing}}</a></h1>
 <form method="post" action="">
 {% csrf_token %}
 {{ form.as_p }}

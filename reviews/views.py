@@ -125,6 +125,11 @@ class ReviewCreateView(CreateView):
 	model = Review
 	form_class = ReviewForm
 
+	def get_context_data(self, **kwargs):
+		# Call the base implementation first to get a context
+		context = super(ReviewCreateView, self).get_context_data(**kwargs)
+		context["thing"] = Thing.objects.get(slug=self.kwargs["slug"])
+		return context
 	
 	@method_decorator(login_required)
 	def dispatch(self, *args, **kwargs):
@@ -143,6 +148,12 @@ class ReviewCreateView(CreateView):
 class ReviewUpdateView(UpdateView):
 	model = Review
 	form_class = ReviewForm
+	
+	def get_context_data(self, **kwargs):
+		# Call the base implementation first to get a context
+		context = super(ReviewUpdateView, self).get_context_data(**kwargs)
+		context["thing"] = self.object.reviewed_uri
+		return context
 	
 	@method_decorator(login_required)
 	def dispatch(self, *args, **kwargs):
