@@ -107,7 +107,7 @@ class ThingDetailView(DetailView):
 				total = thing.review__rating__sum,
 				average = thing.review__rating__avg,
 				count = thing.review__count,
-				reviews = thing.get_absolute_url(),
+				reviews = self.request.build_absolute_uri(thing.get_absolute_url()),
 			)
 			
 			response = http.HttpResponse(json.dumps(output),
