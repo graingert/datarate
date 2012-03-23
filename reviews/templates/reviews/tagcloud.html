@@ -1,0 +1,27 @@
+{% extends "base.html" %} 
+{% block content %}
+	<h2>Things</h2>
+	<ol class="tagcloud">
+    {% for thing in object_list %}
+		<li value="{{thing.review__count}}">
+			<a href="{{ thing.get_absolute_url }}">
+				<span class="name">{{thing}}</span>
+			</a>
+		</li>
+	{% endfor %}
+	</ol>
+{% endblock content%}
+
+{% block extra_scripts %}
+<script src="{{ STATIC_URL }}3rdparty/jquery_plugins/jquery.tagcloud.min.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}3rdparty/jquery_plugins/jquery.tinysort.min.js" type="text/javascript"></script>
+<script language="javascript" type="text/javascript">
+<!--
+$(function(){
+	$("ol.tagcloud>li").tsort()
+	$("ol.tagcloud").tagcloud()
+})
+
+// -->
+</script>
+{% endblock extra_scripts %}

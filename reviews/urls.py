@@ -1,8 +1,7 @@
 from django.conf.urls.defaults import *
 from reviews import models as m
 from django.views import generic as g
-from reviews.views import ReviewCreateView, ThingDetailView, PreviewView, ThingRedirectView, ReviewUpdateView, ProfileUpdateView
-
+from reviews.views import *
 
 urlpatterns = patterns('',
 	url(r'^$', PreviewView.as_view()),
@@ -14,4 +13,5 @@ urlpatterns = patterns('',
 	url(r'^thing/$', g.ListView.as_view(model=m.Thing, paginate_by=10), name="thing"),
 	url(r'^thing/(?P<slug>[-\w]+)/create-review$',ReviewCreateView.as_view(), name="create-review"),
 	url(r'^thing/(?P<slug>[-\w]+)(\.(?P<format>[\w]+))?$', ThingDetailView.as_view(), name="thing_detail"),
+	url(r'^tagcloud/$', TagCloudView.as_view(), name="tagcloud"),
 )

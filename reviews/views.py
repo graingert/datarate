@@ -186,3 +186,8 @@ class ProfileUpdateView(UpdateView):
 			return http.HttpResponseForbidden()
 		else:
 			return super(ProfileUpdateView, self).post(self, request, *args, **kwargs)
+		
+class TagCloudView(ListView):
+	model = Thing
+	queryset = Thing.objects.all().annotate(Sum('review__rating'), Avg('review__rating'), Count('review'))
+	template_name="reviews/tagcloud.html"
