@@ -32,6 +32,7 @@ class PreviewView(TemplateView):
 				
 		return context
 
+
 class ThingRedirectView(RedirectView):
 	permanent = False
 	query_string = False
@@ -63,7 +64,7 @@ class ThingRedirectView(RedirectView):
 					raise HttpException(message="Sorry {uri} doesn't have any data".format(uri=uri), status=httplib.BAD_GATEWAY)
 			else:
 				#Uh oh it's not a valid uri
-				raise raise HttpException(message="Sorry {uri} didn't resolve".format(uri=uri), status=httplib.BAD_GATEWAY)
+				raise HttpException(message="Sorry {uri} didn't resolve".format(uri=uri), status=httplib.BAD_GATEWAY)
 		
 		return thing.get_absolute_url() + "." + kwargs["format"]
 	
@@ -185,4 +186,3 @@ class ProfileUpdateView(UpdateView):
 			return http.HttpResponseForbidden()
 		else:
 			return super(ProfileUpdateView, self).post(self, request, *args, **kwargs)
-		
