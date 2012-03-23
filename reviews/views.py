@@ -60,10 +60,10 @@ class ThingRedirectView(RedirectView):
 					#Okay it looks like we can add it to the db
 					thing.save()
 				except:
-					raise HttpException(message="Sorry that doesn't have any data", status=httplib.BAD_GATEWAY)
+					raise HttpException(message="Sorry {uri} doesn't have any data".format(uri=uri), status=httplib.BAD_GATEWAY)
 			else:
 				#Uh oh it's not a valid uri
-				raise http.Http404
+				raise raise HttpException(message="Sorry {uri} didn't resolve".format(uri=uri), status=httplib.BAD_GATEWAY)
 		
 		return thing.get_absolute_url() + "." + kwargs["format"]
 	
