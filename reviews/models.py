@@ -6,7 +6,7 @@ from django.db.models.signals import post_save, pre_save
 from django.db.models import Count, Sum
 from GChartWrapper import Pie
 
-import urllib, hashlib
+import urllib, hashlib, urlparse
 from rdflib import ConjunctiveGraph, Namespace, exceptions
 from rdflib import URIRef, RDFS, RDF, BNode
 import bleach
@@ -53,7 +53,7 @@ class Thing(m.Model):
 		#return getattr(self, "_graph", self.build_graph())
 	
 	def get_label(self):
-		return unicode(self.graph.label(URIRef(self.uri), self.uri))
+		return unicode(self.graph.label(URIRef(self.uri), urlparse.urlparse(self.uri).path))
 		
 		
 	def save(self):
