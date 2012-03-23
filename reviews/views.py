@@ -12,6 +12,8 @@ from django import http
 from django.utils import simplejson as json
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from datarate.http import HttpException
+import httplib
 	
 
 class PreviewView(TemplateView):
@@ -58,7 +60,7 @@ class ThingRedirectView(RedirectView):
 					#Okay it looks like we can add it to the db
 					thing.save()
 				except:
-					raise http.Http404
+					raise HttpException(message="Sorry that doesn't have any data", status=httplib.BAD_GATEWAY)
 			else:
 				#Uh oh it's not a valid uri
 				raise http.Http404
@@ -70,7 +72,6 @@ class ThingRedirectView(RedirectView):
 		response['Access-Control-Allow-Origin'] = '*'
 		
 		return response
-		
 
 
 class ThingDetailView(DetailView):
