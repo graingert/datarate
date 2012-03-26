@@ -12,6 +12,10 @@
 
 {% endblock content %}
 
+{% block footer %}
+	<p>This page uses <a href="http://www.movable-type.co.uk/scripts/latlong-db.html">code</a> from Chris Veness</p>
+{% endblock %}
+
 {% block extra_scripts %}
 <script src="{{ STATIC_URL }}3rdparty/sparql/sparql.js" type="text/javascript"></script>
 <script type="text/javascript">
