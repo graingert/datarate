@@ -15,8 +15,31 @@
 {% block extra_scripts %}
 <script src="{{ STATIC_URL }}3rdparty/sparql/sparql.js" type="text/javascript"></script>
 <script type="text/javascript">
+	
+	function rad2deg (angle) {
+		// Converts the radian number to the equivalent number in degrees  
+		// 
+	    // version: 1109.2015
+	    // discuss at: http://phpjs.org/functions/rad2deg    // +   original by: Enrique Gonzalez
+	    // +      improved by: Brett Zamir (http://brett-zamir.me)
+	    // *     example 1: rad2deg(3.141592653589793);
+	    // *     returns 1: 180
+	    return angle * 57.29577951308232; // angle / Math.PI * 180}
+	}
+	
+	function deg2rad (angle) {
+	    // Converts the number in degrees to the radian equivalent  
+	    // 
+	    // version: 1109.2015
+	    // discuss at: http://phpjs.org/functions/deg2rad    // +   original by: Enrique Gonzalez
+	    // +     improved by: Thomas Grainger (http://graingert.co.uk)
+	    // *     example 1: deg2rad(45);
+	    // *     returns 1: 0.7853981633974483
+	    return angle * 0.017453292519943295; // (angle / 180) * Math.PI;
+	}
+	
 	$(function(){
-		
+
 		var sparqler = new SPARQL.Service("http://sparql.data.southampton.ac.uk/");
 		
 		sparqler.setPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
@@ -34,14 +57,17 @@
 			var lat = parseFloat($(this).find("input[name=latitude]").val())
 			var lng = parseFloat($(this).find("input[name=longitude]").val())
 			var radius = parseFloat($(this).find("input[name=radius]").val())
+			var earth_r = 6371.0; //Earth's radius
 			
-			
+			console.log("math")
+			// first-cut bounding box (in degrees)
+			var maxLat = lat + rad2deg(radius/earth_r)
+			var minLat = lat - rad2deg(radius/earth_r)
+			// compensate for degrees longitude getting smaller with increasing latitude
+			var maxLng = lng + rad2deg(radius/earth_r/Math.cos(deg2rad(lat)))
+			var minLng = lng - rad2deg(radius/earth_r/Math.cos(deg2rad(lat)))
+						console.log("postmath")
 			var query = sparqler.createQuery()
-			
-			
-			
-			
-			console.log("about to query")
 			
 			
 			//http://notes.3kbo.com/sparql-geolocation
@@ -50,8 +76,8 @@
 					?s geo:lat ?lat .\n\
 					?s geo:long ?long .\n\
 					?s rdfs:label ?label .\n\
-					FILTER ( ?long > ' + (lng - radius) + ' && ?long < ' + (lng+radius) + '&& ?lat > ' + (lat - radius) +' && ?lat < '+(lat + radius)+')\n\
-				} LIMIT 10',
+					FILTER ( ?long > ' + minLng + ' && ?long < ' + maxLng + '&& ?lat > ' + minLat +' && ?lat < '+ maxLat +')\n\
+				} LIMIT 100',
 				{
 					failure: function(){
 						console.log("fail")
