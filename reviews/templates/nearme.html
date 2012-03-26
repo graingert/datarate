@@ -3,12 +3,11 @@
 {% block content %}
 
 <form id="nearme-settings">
-	<p><input name="latitude" type="number" min="-90" max="90" value="-84.33333587646484"/></p>
-	<p><input name="longitude" type="number" min="-180" max="180" value="166.4166717529297"/></p>
-	<p><input name="radius" type="number" value="10"/></p>
+	<p><input name="latitude" type="number" min="-90" max="90" value="50.942921"/></p>
+	<p><input name="longitude" type="number" min="-180" max="180" value="-1.401112"/></p>
+	<p><input name="radius" type="number" value="0.001"/></p>
 	<input type="submit" disabled="disabled" />
 </form>
-
 <ul id="things-nearme"></ul>
 
 {% endblock content %}
@@ -18,12 +17,11 @@
 <script type="text/javascript">
 	$(function(){
 		
-		var sparqler = new SPARQL.Service("http://dbpedia.org/sparql");
+		var sparqler = new SPARQL.Service("http://sparql.data.southampton.ac.uk/");
 		
 		sparqler.setPrefix("foaf", "http://xmlns.com/foaf/0.1/")
 		sparqler.setPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
 		sparqler.setPrefix("geo", "http://www.w3.org/2003/01/geo/wgs84_pos#")
-		sparqler.setPrefix("dbo", "http://dbpedia.org/ontology/")
 		
 		sparqler.setOutput("json")
 		sparqler.setMethod("POST")
@@ -49,7 +47,6 @@
 			//http://notes.3kbo.com/sparql-geolocation
 			query.query(
 				'SELECT * WHERE {\n\
-					?s a dbo:Place .\n\
 					?s geo:lat ?lat .\n\
 					?s geo:long ?long .\n\
 					FILTER ( ?long > ' + (lng - radius) + ' && ?long < ' + (lng+radius) + '&& ?lat > ' + (lat - radius) +' && ?lat < '+(lat + radius)+')\n\
