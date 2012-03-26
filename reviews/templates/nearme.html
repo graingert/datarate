@@ -19,9 +19,9 @@
 		
 		var sparqler = new SPARQL.Service("http://sparql.data.southampton.ac.uk/");
 		
-		sparqler.setPrefix("foaf", "http://xmlns.com/foaf/0.1/")
 		sparqler.setPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
 		sparqler.setPrefix("geo", "http://www.w3.org/2003/01/geo/wgs84_pos#")
+		sparqler.setPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#")
 		
 		sparqler.setOutput("json")
 		sparqler.setMethod("POST")
@@ -49,6 +49,7 @@
 				'SELECT * WHERE {\n\
 					?s geo:lat ?lat .\n\
 					?s geo:long ?long .\n\
+					?s rdfs:label ?label .\n\
 					FILTER ( ?long > ' + (lng - radius) + ' && ?long < ' + (lng+radius) + '&& ?lat > ' + (lat - radius) +' && ?lat < '+(lat + radius)+')\n\
 				} LIMIT 10',
 				{
@@ -58,8 +59,8 @@
 					success: function(json) {
 
 						for(var i=0; i<json.results.bindings.length; i++){
-							var item = json.results.bindings[i].s.value
-							things.append('<li><a href="' + item + '">'+item+'</a></li>')
+							var item = json.results.bindings[i]
+							things.append('<li><a href="' + item.s.value + '">'+item.label.value+'</a></li>')
 						}
 					}
 				}
