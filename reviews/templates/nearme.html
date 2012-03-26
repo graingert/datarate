@@ -8,8 +8,10 @@
 	<p><input name="radius" value="0.1"/></p>
 	<input type="submit" disabled="disabled" />
 </form>
-<ul id="things-nearme"></ul>
-
+<div class="row">
+	<div id="things-map" class="span8" style="height:250px"></div>
+	<ul id="things-nearme" class="span4"></ul>
+</div>
 {% endblock content %}
 
 {% block footer %}
@@ -43,7 +45,12 @@
 	}
 	
 	$(function(){
-
+		
+		var map = new OpenLayers.Map("things-map")
+		var mapnik = new OpenLayers.Layer.OSM();
+		map.addLayer(mapnik);
+		map.zoomToMaxExtent();
+		
 		var sparqler = new SPARQL.Service("http://sparql.data.southampton.ac.uk/");
 		
 		sparqler.setPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
@@ -63,14 +70,15 @@
 			var radius = parseFloat($(this).find("input[name=radius]").val())
 			var earth_r = 6371.0; //Earth's radius
 			
-			console.log("math")
+			map.setCenter(new OpenLayers.LonLat(lng, lat), 16)
+			
 			// first-cut bounding box (in degrees)
 			var maxLat = lat + rad2deg(radius/earth_r)
 			var minLat = lat - rad2deg(radius/earth_r)
 			// compensate for degrees longitude getting smaller with increasing latitude
 			var maxLng = lng + rad2deg(radius/earth_r/Math.cos(deg2rad(lat)))
 			var minLng = lng - rad2deg(radius/earth_r/Math.cos(deg2rad(lat)))
-						console.log("postmath")
+			
 			var query = sparqler.createQuery()
 			
 			
@@ -100,4 +108,6 @@
 		$("#nearme-settings input[type=submit]").removeAttr("disabled")
 	})
 </script>
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+
 {% endblock %}
