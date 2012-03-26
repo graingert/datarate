@@ -14,4 +14,5 @@ urlpatterns = patterns('',
 	url(r'^thing/(?P<slug>[-\w]+)/create-review$',ReviewCreateView.as_view(), name="create-review"),
 	url(r'^thing/(?P<slug>[-\w]+)(\.(?P<format>[\w]+))?$', ThingDetailView.as_view(), name="thing_detail"),
 	url(r'^tagcloud/$', TagCloudView.as_view(), name="tagcloud"),
+	url(r'^nearme/$', TemplateView.as_view(template_name = "nearme.html"))
 )

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form id="nearme-settings">
+	<p><input name="latitude" type="number" min="-90" max="90" value="-84.33333587646484"/></p>
+	<p><input name="longitude" type="number" min="-180" max="180" value="166.4166717529297"/></p>
+	<p><input name="radius" type="number" value="10"/></p>
+	<input type="submit" disabled="disabled" />
+</form>
+
+<ul id="things-nearme"></ul>
+
+{% endblock content %}
+
+{% block extra_scripts %}
+<script src="{{ STATIC_URL }}3rdparty/sparql/sparql.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(function(){
+		
+		var sparqler = new SPARQL.Service("http://dbpedia.org/sparql");
+		
+		sparqler.setPrefix("foaf", "http://xmlns.com/foaf/0.1/")
+		sparqler.setPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+		sparqler.setPrefix("geo", "http://www.w3.org/2003/01/geo/wgs84_pos#")
+		sparqler.setPrefix("dbo", "http://dbpedia.org/ontology/")
+		
+		sparqler.setOutput("json")
+		sparqler.setMethod("POST")
+		
+		
+		$("#nearme-settings").submit(function(e){
+			var things = $("#things-nearme")
+			things.empty()
+			
+			var lat = parseFloat($(this).find("input[name=latitude]").val())
+			var lng = parseFloat($(this).find("input[name=longitude]").val())
+			var radius = parseFloat($(this).find("input[name=radius]").val())
+			
+			
+			var query = sparqler.createQuery()
+			
+			
+			
+			
+			console.log("about to query")
+			
+			
+			//http://notes.3kbo.com/sparql-geolocation
+			query.query(
+				'SELECT * WHERE {\n\
+					?s a dbo:Place .\n\
+					?s geo:lat ?lat .\n\
+					?s geo:long ?long .\n\
+					FILTER ( ?long > ' + (lng - radius) + ' && ?long < ' + (lng+radius) + '&& ?lat > ' + (lat - radius) +' && ?lat < '+(lat + radius)+')\n\
+				} LIMIT 10',
+				{
+					failure: function(){
+						console.log("fail")
+					},
+					success: function(json) {
+
+						for(var i=0; i<json.results.bindings.length; i++){
+							var item = json.results.bindings[i].s.value
+							things.append('<li><a href="' + item + '">'+item+'</a></li>')
+						}
+					}
+				}
+			)
+		return false
+		})
+		$("#nearme-settings input[type=submit]").removeAttr("disabled")
+	})
+</script>
+{% endblock %}
