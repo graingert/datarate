@@ -328,15 +328,17 @@ SPARQL.Query = function(service, priority) {
 				var xhr = getXmlHttpRequest(url);
 				var content = null;
 
-				try {
-                    if (!document.domain || (url.match(/^https?:\/\//) && url.slice(7, document.domain.length + 7) != document.domain && window.netscape && netscape.security && netscape.security.PrivilegeManager)) {
-						netscape.security.PrivilegeManager.enablePrivilege( "UniversalBrowserRead");
-						netscape.security.PrivilegeManager.enablePrivilege( "UniversalXPConnect"); 
-					}
-				} catch(e) {
-					alert("Cross-site requests prohibited. You will only be able to SPARQL the origin site: " + e);
-                    return;
-				}
+
+				//Comment these lines because they are not needed for CORS
+				//try {
+                    //if (!document.domain || (url.match(/^https?:\/\//) && url.slice(7, document.domain.length + 7) != document.domain && window.netscape && netscape.security && netscape.security.PrivilegeManager)) {
+						//netscape.security.PrivilegeManager.enablePrivilege( "UniversalBrowserRead");
+						//netscape.security.PrivilegeManager.enablePrivilege( "UniversalXPConnect"); 
+					//}
+				//} catch(e) {
+					//alert("Cross-site requests prohibited. You will only be able to SPARQL the origin site: " + e);
+                    //return;
+				//}
 				
 				xhr.open(_method, url, true /* async */);
 				
