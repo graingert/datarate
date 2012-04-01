@@ -23,7 +23,7 @@ class HttpExceptionMiddleware(object):
 		exception is instance of HttpException class
 		"""
 		# we need to import to use isinstance
-		from http import HttpException
+		from django_http_exception import HttpException
 		if not isinstance(exception,HttpException):
 			# Return None make that django reraise exception:
 			# http://docs.djangoproject.com/en/dev/topics/http/middleware/#process_exception

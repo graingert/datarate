@@ -12,7 +12,7 @@ from django import http
 from django.utils import simplejson as json
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from datarate.http import HttpException
+from datarate.django_http_exception import HttpException
 import httplib
 	
 
