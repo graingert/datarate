@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models as m
 from django.contrib.auth.models import User
 from django_extensions.db.fields import AutoSlugField, CreationDateTimeField, ModificationDateTimeField
@@ -6,7 +7,9 @@ from django.db.models.signals import post_save, pre_save
 from django.db.models import Count, Sum
 from GChartWrapper import Pie
 
-import urllib, hashlib, urlparse
+import thingvalidator
+
+import urllib, hashlib, urlparse, urllib2
 from rdflib import ConjunctiveGraph, Namespace, exceptions
 from rdflib import URIRef, RDFS, RDF, BNode
 import bleach
@@ -109,6 +112,10 @@ class Thing(m.Model):
 			count.append(point["count"])
 		
 		return unicode(Pie(count,apiurl="https://chart.googleapis.com/chart?").color(*colors).label(*labels))
+	
+	@classmethod
+	def construct_from_uri(cls, uri):
+		return thingvalidator.construct_from_uri(uri)
 
 class Review(m.Model):
 	date_created = CreationDateTimeField()

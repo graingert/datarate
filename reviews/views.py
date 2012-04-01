@@ -14,6 +14,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from datarate.django_http_exception import HttpException
 import httplib
+
+from thingvalidator import ThingException
 	
 
 class PreviewView(TemplateView):
@@ -44,27 +46,12 @@ class ThingRedirectView(RedirectView):
 			raise http.Http404
 		else:
 			uri = self.request.GET["uri"]
+		
 		try:
-			#try to get a pre-existing object from the DB.
-			thing = Thing.objects.get(uri=uri)
-		except ObjectDoesNotExist, e:
-			#Right we don't have one, now to validate the Thing.
-			thingForm = ThingForm(self.request.GET)
-			
-			
-			if thingForm.is_valid():
-				#Awesome it's a valid uri.
-				thing = thingForm.save(commit = False)
-				print "valid form"
-				try:
-					thing.graph
-					#Okay it looks like we can add it to the db
-					thing.save()
-				except:
-					raise HttpException(message="Sorry {uri} doesn't have any data".format(uri=uri), status=httplib.BAD_GATEWAY)
-			else:
-				#Uh oh it's not a valid uri
-				raise HttpException(message="Sorry {uri} didn't resolve".format(uri=uri), status=httplib.BAD_GATEWAY)
+			thing = Thing.construct_from_uri(uri)
+
+		except ThingException, e:
+			raise HttpException(message=e.message, status=httplib.BAD_GATEWAY)
 		
 		return thing.get_absolute_url() + "." + kwargs["format"]
 	
