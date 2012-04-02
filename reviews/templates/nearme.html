@@ -33,9 +33,22 @@
 </script>
 
 <script id="things-nearme-tmpl" type="text/x-handlebars-template">
-	{{#things}}
-		<li><a href={{uri}}>{{name}}</a></li>
-	{{/things}}
+	<ol class="thing-stream stream well">
+		{{#things}}
+		<li>
+		<article class="thing">
+			<header>
+				<a href="/thing.html?uri={{uri}}">
+					<h2 class="name">{{name}}</h2>
+				</a>
+			</header>
+			<div class="btn-group">
+				<a class="btn" href="/thing.html?uri={{uri}}">View Reviews</a>
+			</div>
+		</article>
+		</li>
+		{{/things}}
+	</ol>
 </script>
 
 
