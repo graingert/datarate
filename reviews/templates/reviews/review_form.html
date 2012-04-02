@@ -13,13 +13,7 @@
 {{ form.as_p }}
 
 <div id="mentioned-lists" hidden="hidden">
-
-<ul id="mentioned" class="mentionables">
-</ul>
-
-<ul id="not-mentioned" class="mentionables">
-</ul>
-
+	<ul id="mentionable-list"></ul>
 </div>
 
 <input type="submit" value="Submit" />
@@ -30,6 +24,9 @@
  {{ form.media.js }}
 <script src="{{ STATIC_URL }}3rdparty/sparql/sparql.js" type="text/javascript"></script>
 <script src="{{ STATIC_URL }}3rdparty/handlebars/handlebars-1.0.0.beta.6.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}3rdparty/underscore/underscore-min.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}3rdparty/backbone/backbone-min.js" type="text/javascript"></script>
+
 {% verbatim %}
 <script id="sparql-related-things" type="text/x-handlebars-template">
 	SELECT DISTINCT ?thing ?name {
@@ -42,15 +39,92 @@
 	}
 </script>
 
+
+<script id="mentionable-tmpl" type="text/x-handlebars-template">
+	<div class="mentionable">
+		<input class="toggle" type="checkbox" {{#if mentioned}} checked="checked" {{/if}} />
+		<label>{{label}}</label>
+	</div>
+</script>
+
 <script id="related-things" type="text/x-handlebars-template">
+	<ul id="not-mentioned" class="mentionables">
 	{{#things}}
-		<li data-uri="{{uri}}">{{name}}</li>
+			<li data-uri="{{uri}}">{{name}}</li>
 	{{/things}}
+	</ul>
 </script>
 
 <script type="text/javascript">
 	
+	
+	
 	$(function(){
+		
+		//Mentionable model
+		
+		var Mentionable = Backbone.Model.extend({
+			defaults: function() {
+				return {
+					label: "no label",
+					uri: "no uri",
+					mentioned: false,
+				}
+			},
+			
+			toggle: function(){
+				this.save({mentioned: !this.get("mentioned")})
+			},
+		})
+			
+		var MentionableList = Backbone.Collection.extend({
+			model: Mentionable,
+			
+			mentioned: function() {
+				return this.filter(function(mentionable){
+					return mentionable.get('mentioned')
+				})
+			},
+			
+			unmentioned: function() {
+				return this.without.apply(this, this.mentioned())
+			}
+		})
+		
+		var Mentionables = new MentionableList;
+		
+		var MentionableView = Backbone.View.extend({
+			tagName: "li",
+			template: Handlebars.compile($("#mentionable-templ").html()),
+			
+			events: {
+				"click .toggle" : "toggleMentioned",
+			},
+			
+			initialize: function(){
+				this.model.bind('change', this.render, this)
+			},
+			
+			render: function(){
+				this.$el.html(this.template(this.model.toJSON()))
+			},
+			
+			toggleMentioned: function(){
+				this.model.toggle()
+			}
+		})
+		
+		var AppView = Backbone.View.extend({
+			el: $("#mentioned-lists"),
+			
+			initialize: function() {
+				
+			},
+		});
+		
+		var App = new AppView;
+		
+		
 		var sparqlRelatedThings = Handlebars.compile($("#sparql-related-things").html())
 		var relatedThings = Handlebars.compile($("#related-things").html())
 		
@@ -67,7 +141,6 @@
 		var query = sparqler.createQuery()
 			
 			
-		//http://notes.3kbo.com/sparql-geolocation
 		query.query(
 			sparqlRelatedThings({uri:$("#thing-link").attr("data-uri")}),
 			{
@@ -87,7 +160,7 @@
 						}
 					}
 					
-					$("#not-mentioned").html(relatedThings(context))
+					$("#mentioned-lists").html(relatedThings(context))
 					$("#mentioned-lists").removeAttr("hidden")
 				}
 			}
