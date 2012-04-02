@@ -12,7 +12,7 @@
 {% csrf_token %}
 {{ form.as_p }}
 
-<div id="mentioned-lists" hidden="hidden">
+<div id="mentioned-lists">
 	<ul id="mentionable-list"></ul>
 </div>
 
@@ -41,7 +41,7 @@
 
 
 <script id="mentionable-tmpl" type="text/x-handlebars-template">
-	<div class="mentionable">
+	<div class="mentionable" {{#if mentioned}} data-mentioned="true" {{/if}}>
 		<input class="toggle" type="checkbox" {{#if mentioned}} checked="checked" {{/if}} />
 		<label>{{label}}</label>
 	</div>
@@ -95,7 +95,7 @@
 		
 		var MentionableView = Backbone.View.extend({
 			tagName: "li",
-			template: Handlebars.compile($("#mentionable-templ").html()),
+			template: Handlebars.compile($("#mentionable-tmpl").html()),
 			
 			events: {
 				"click .toggle" : "toggleMentioned",
@@ -107,6 +107,7 @@
 			
 			render: function(){
 				this.$el.html(this.template(this.model.toJSON()))
+				return this
 			},
 			
 			toggleMentioned: function(){
@@ -118,8 +119,20 @@
 			el: $("#mentioned-lists"),
 			
 			initialize: function() {
-				
+				Mentionables.bind('add', this.addOne, this);
+				Mentionables.bind('reset', this.addAll, this);
+				Mentionables.bind('all', this.render, this);
 			},
+			
+			addOne: function(mentionable) {
+				var view = new MentionableView({model: mentionable});
+				this.$("#mentionable-list").append(view.render().el);
+			},
+			
+			addAll: function() {
+				Mentionables.each(this.addOne);
+			},
+			
 		});
 		
 		var App = new AppView;
@@ -148,20 +161,15 @@
 					console.log("fail")
 				},
 				success: function(json) {
-					var context = {
-						things : [
-						]
-					}
 
 					for(var i=0; i<json.results.bindings.length; i++){
 						var item = json.results.bindings[i]
 						if (item.thing.type == "uri" && 'name' in item){
-							context.things.push({ uri:item.thing.value, name:item.name.value})
+							Mentionables.push(new Mentionable({ uri:item.thing.value, label:item.name.value}))
 						}
 					}
 					
-					$("#mentioned-lists").html(relatedThings(context))
-					$("#mentioned-lists").removeAttr("hidden")
+					
 				}
 			}
 		)
