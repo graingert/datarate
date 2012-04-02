@@ -12,7 +12,9 @@
 {% csrf_token %}
 {{ form.as_p }}
 
-<div id="mentioned-lists">
+<div id="didyoumention" hidden="hidden">
+	<h2>What are you talking about?</h2>
+	<p>Did you mention any of these Things in your review?</p>
 	<ul id="mentioned-list"></ul>
 	<ul id="mentionable-list"></ul>
 </div>
@@ -42,8 +44,7 @@
 
 
 <script id="mentionable-tmpl" type="text/x-handlebars-template">
-	<div class="mentionable" {{#if mentioned}} data-mentioned="true" {{/if}}>
-		<input class="toggle" type="checkbox" {{#if mentioned}} checked="checked" {{/if}} />
+	<div class="mentionable">
 		<label>{{label}}</label>
 	</div>
 </script>
@@ -59,27 +60,16 @@
 				return {
 					label: "no label",
 					uri: "no uri",
-					mentioned: false,
 				}
 			},
 			
 			toggle: function(){
-				this.save({mentioned: !this.get("mentioned")})
+				
 			},
 		})
 			
 		var MentionableList = Backbone.Collection.extend({
 			model: Mentionable,
-			
-			mentioned: function() {
-				return this.filter(function(mentionable){
-					return mentionable.get('mentioned')
-				})
-			},
-			
-			unmentioned: function() {
-				return this.without.apply(this, this.mentioned())
-			}
 		})
 		
 		var MentionableView = Backbone.View.extend({
@@ -165,6 +155,8 @@
 				}
 			}
 		)
+		
+		$("#didyoumention").removeAttr("hidden")
 	})
 </script>
 {% endverbatim %}
