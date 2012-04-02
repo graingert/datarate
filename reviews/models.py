@@ -122,7 +122,7 @@ class Review(m.Model):
 	date_modified = ModificationDateTimeField()
 	#title = m.CharField(max_length=128)
 	rating = RangeField(min_value=-3, max_value = 3, step = 2)
-	text = m.TextField()
+	text = m.TextField(verbose_name="Detailed Review")
 	author = m.ForeignKey(User, editable=False)
 	reviewed_uri = m.ForeignKey(Thing)
 	
