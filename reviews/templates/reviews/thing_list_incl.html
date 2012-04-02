@@ -3,7 +3,7 @@
 	<li>
 	<article class="thing">
 		<header>
-			<a href="{{ thing.get_absolute_url }}">
+			<a href="{{ thing.uri }}">
 				<h2 class="name">{{thing}}</h2>
 			</a>
 			{% if thing.review__rating__sum %}
