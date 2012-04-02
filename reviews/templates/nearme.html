@@ -20,6 +20,7 @@
 {% block extra_scripts %}
 <script src="{{ STATIC_URL }}3rdparty/sparql/sparql.js" type="text/javascript"></script>
 <script src="{{ STATIC_URL }}3rdparty/handlebars/handlebars-1.0.0.beta.6.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}3rdparty/URI/URI.js" type="text/javascript"></script>
 {%verbatim%}
 
 <!--http://notes.3kbo.com/sparql-geolocation-->
@@ -38,12 +39,12 @@
 		<li>
 		<article class="thing">
 			<header>
-				<a href="/thing.html?uri={{uri}}">
+				<a href="{{api_url}}">
 					<h2 class="name">{{name}}</h2>
 				</a>
 			</header>
 			<div class="btn-group">
-				<a class="btn" href="/thing.html?uri={{uri}}">View Reviews</a>
+				<a class="btn" href="{{api_url}}">View Reviews</a>
 			</div>
 		</article>
 		</li>
@@ -120,7 +121,7 @@
 						}
 						for(var i=0; i<json.results.bindings.length; i++){
 							var item = json.results.bindings[i]
-							context.things.push({uri : item.s.value,  name : item.label.value })
+							context.things.push({uri : item.s.value,  name : item.label.value, api_url: URI("/thing.html").search({uri : item.s.value}) })
 						}
 						$("#things-nearme").html(thingsNearme(context))
 					}
