@@ -1,7 +1,7 @@
 # Create your views here.
 from reviews.models import Thing, Review, UserProfile
 from django.contrib.auth.models import User
-from reviews.forms import ReviewForm, ThingForm, ProfileForm
+from reviews.forms import ReviewForm, ProfileForm
 from django.views.generic import *
 from django.views.generic.edit import ModelFormMixin, ProcessFormView
 from django.contrib.auth.decorators import login_required
