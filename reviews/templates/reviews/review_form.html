@@ -52,7 +52,7 @@
 
 <script id="mentionable-tmpl" type="text/x-handlebars-template">
 	<div class="mentionable">
-		<label>{{label}}</label>
+		<a href="{{uri}}"><p>{{label}}</p></a>
 		<button class="mention btn btn-success btn-mini">Mention</button>
 		<button class="unmention btn btn-danger btn-mini">Unmention</button>
 	</div>
@@ -63,6 +63,7 @@
 	$(function(){
 		
 		//Mentionable model
+		var form = $("#review-form")
 		var submitButton = $("#review-form input[type=submit]")
 		submitButton.attr("disabled", "disabled")
 		
@@ -93,13 +94,11 @@
 			model: Mentionable,
 			
 			add: function(mentionable){
-				console.log(mentionable)
 				if (uri_set.hasOwnProperty(mentionable.uri)){
 					return
 				}
 				uri_set_empty = false
 				uri_set[mentionable.get("uri")] = mentionable
-				console.log(uri_set)
 				Backbone.Collection.prototype.add.call(this, mentionable)
 			},
 			
@@ -208,12 +207,37 @@
 			)
 		}
 		
+		var mentionedInput = $("#review-form input[name=mentioned]")
+		
+		function addPreviousThings(){
+			var uris = []
+			try{
+				uris = $.parseJSON(mentionedInput.val())
+			} catch(err) {
+
+			}
+			_.each(uris, function(uri){
+				if (uri_set.hasOwnProperty(uri)){
+					uri_set[uri].mention()
+				}
+			})
+		}
+		
+		
 		function done(){
-			console.log(uri_set)
+			addPreviousThings()
 			if (!uri_set_empty){
 				$("#didyoumention").removeAttr("hidden")
 			}
-					
+			form.submit(function(event){
+				var uris = []
+				mentioned.each(function(mentionable){
+					console.log(mentionable)
+					uris.push(mentionable.get("uri"))
+				})
+				mentionedInput.val(JSON.stringify(uris))
+				return true	
+			})	
 			submitButton.removeAttr("disabled")
 		}
 	})

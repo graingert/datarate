@@ -125,6 +125,7 @@ class Review(m.Model):
 	text = m.TextField(verbose_name="Detailed Review")
 	author = m.ForeignKey(User, editable=False)
 	reviewed_uri = m.ForeignKey(Thing)
+	mentioned = m.TextField(blank=True)
 	
 	def get_absolute_url(self):
 		thing_url = self.reviewed_uri.get_absolute_url()
