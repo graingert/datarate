@@ -13,16 +13,18 @@
 {% csrf_token %}
 {{ form.as_p }}
 
-<div id="didyoumention" class="row" hidden="hidden">
+<div id="didyoumention" hidden="hidden">
 	<h2>What are you Talking About?</h2>
 	<p>Did you mention any of these Things in your review?</p>
-	<div class="span4">
-		<h3>Mentioned in this Review</h3>
-		<ul id="mentioned-list"></ul>
-	</div>
-	<div class="span4">
-		<h3>Not Mentioned in this Review</h3>
-		<ul id="mentionable-list"></ul>
+	<div class="row">
+		<div class="span4">
+			<h3>Mentioned in this Review</h3>
+			<ul id="mentioned-list"></ul>
+		</div>
+		<div class="span4">
+			<h3>Not Mentioned in this Review</h3>
+			<ul id="mentionable-list"></ul>
+		</div>
 	</div>
 </div>
 
