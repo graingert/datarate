@@ -1,0 +1,35 @@
+#mentioned-list button.mention{
+	display: none;
+}
+
+#mentioned-list button.unmention{
+
+}
+
+#mentionable-list button.mention{
+
+}
+
+#mentionable-list button.unmention{
+	display: none;
+}
+
+#id_rating[value="-3"]~label[for="id_rating"]:after {
+    color: red;
+    content: "terrible";
+}
+
+#id_rating[value="-1"]~label[for="id_rating"]:after {
+    color: red;
+    content: "bad";
+}
+
+#id_rating[value="1"]~label[for="id_rating"]:after {
+    color: red;
+    content: "good";
+}
+
+#id_rating[value="3"]~label[for="id_rating"]:after {
+    color: red;
+    content: "great";
+}
