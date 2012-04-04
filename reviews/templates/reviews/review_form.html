@@ -149,6 +149,7 @@
 		var mentionedView = new MentionListView(mentioned, $("#mentioned-list"))
 		
 		var uri_set = {}
+		var uri_set_empty = true
 		
 		var sparqlRelatedThings = Handlebars.compile($("#sparql-related-things").html())
 		var relatedThings = Handlebars.compile($("#related-things").html())
@@ -180,15 +181,18 @@
 							var raw = { uri:item.thing.value, label:item.name.value}
 							if (!(uri_set.hasOwnProperty(raw.uri))){
 								uri_set[raw.uri] = true
+								uri_set_empty = false
 								mentionables.push(new Mentionable({ uri:item.thing.value, label:item.name.value}))
 							}
 						}
 					}
+					
+					if (!uri_set_empty){
+						$("#didyoumention").removeAttr("hidden")
+					}
 				}
 			}
 		)
-		
-		$("#didyoumention").removeAttr("hidden")
 	})
 </script>
 {% endverbatim %}
