@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load verbatim %}
 {% block extra_head %}
+	<link rel="stylesheet" href="{{ STATIC_URL }}reviews/form.css" type="text/css" />
     {{ form.media.css }}
 {% endblock %}
 
@@ -12,11 +13,17 @@
 {% csrf_token %}
 {{ form.as_p }}
 
-<div id="didyoumention" hidden="hidden">
-	<h2>What are you talking about?</h2>
+<div id="didyoumention" class="row" hidden="hidden">
+	<h2>What are you Talking About?</h2>
 	<p>Did you mention any of these Things in your review?</p>
-	<ul id="mentioned-list"></ul>
-	<ul id="mentionable-list"></ul>
+	<div class="span4">
+		<h3>Mentioned in this Review</h3>
+		<ul id="mentioned-list"></ul>
+	</div>
+	<div class="span4">
+		<h3>Not Mentioned in this Review</h3>
+		<ul id="mentionable-list"></ul>
+	</div>
 </div>
 
 <input type="submit" value="Submit" />
@@ -46,6 +53,8 @@
 <script id="mentionable-tmpl" type="text/x-handlebars-template">
 	<div class="mentionable">
 		<label>{{label}}</label>
+		<button class="mention">Mention</button>
+		<button class="unmention">Unmention</button>
 	</div>
 </script>
 
@@ -63,8 +72,14 @@
 				}
 			},
 			
-			toggle: function(){
-				
+			mention: function(){
+				mentionables.remove(this)
+				mentioned.add(this)
+			},
+			
+			unmention:function(){
+				mentioned.remove(this)
+				mentionables.add(this)
 			},
 		})
 			
@@ -77,7 +92,8 @@
 			template: Handlebars.compile($("#mentionable-tmpl").html()),
 			
 			events: {
-				"click .toggle" : "toggleMentioned",
+				"click .mention" : "mention",
+				"click .unmention" : "unmention",
 			},
 			
 			initialize: function(){
@@ -89,29 +105,40 @@
 				return this
 			},
 			
-			toggleMentioned: function(){
-				this.model.toggle()
-			}
+			mention: function(){
+				this.model.mention()
+			},
+			
+			unmention: function(){
+				this.model.unmention()
+			},
 		})
 		
 		var MentionListView = Backbone.View.extend({
 			
 			initialize: function(collection, list) {
-				collection.bind('add', this.addOne, this);
-				collection.bind('reset', this.addAll, this);
-				collection.bind('all', this.render, this);
+				this._viewPointers = []
+				
+				collection.bind('add', this.addOne, this)
+				collection.bind('reset', this.addAll, this)
+				collection.bind('all', this.render, this)
+				collection.bind('remove', this.removeOne, this)
 				this.list = list
 			},
 			
 			addOne: function(mentionable) {
-				var view = new MentionableView({model: mentionable});
-				this.list.append(view.render().el);
+				var view = new MentionableView({model: mentionable})
+				this._viewPointers[mentionable.cid] = view
+				this.list.append(view.render().el)
 			},
 			
 			addAll: function() {
 				collection.each(this.addOne);
 			},
 			
+			removeOne: function(mentionable){
+				this._viewPointers[mentionable.cid].remove()
+			},
 		})
 		
 		var mentionables = new MentionableList;
