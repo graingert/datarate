@@ -148,6 +148,7 @@
 		var mentionableView = new MentionListView(mentionables, $("#mentionable-list"))
 		var mentionedView = new MentionListView(mentioned, $("#mentioned-list"))
 		
+		var uri_set = {}
 		
 		var sparqlRelatedThings = Handlebars.compile($("#sparql-related-things").html())
 		var relatedThings = Handlebars.compile($("#related-things").html())
@@ -176,7 +177,11 @@
 					for(var i=0; i<json.results.bindings.length; i++){
 						var item = json.results.bindings[i]
 						if (item.thing.type == "uri" && 'name' in item){
-							mentionables.push(new Mentionable({ uri:item.thing.value, label:item.name.value}))
+							var raw = { uri:item.thing.value, label:item.name.value}
+							if (!(uri_set.hasOwnProperty(raw.uri))){
+								uri_set[raw.uri] = true
+								mentionables.push(new Mentionable({ uri:item.thing.value, label:item.name.value}))
+							}
 						}
 					}
 				}
