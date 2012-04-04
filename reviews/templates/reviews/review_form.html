@@ -9,7 +9,7 @@
 {% block content %}
 
 <h1>Reviewing <a id="thing-link" href="{{ thing.get_absolute_url }}" data-uri="{{thing.uri}}">{{thing}}</a></h1>
-<form method="post" action="">
+<form id="review-form" method="post" action="">
 {% csrf_token %}
 {{ form.as_p }}
 
@@ -63,6 +63,8 @@
 	$(function(){
 		
 		//Mentionable model
+		var submitButton = $("#review-form input[type=submit]")
+		submitButton.attr("disabled", "disabled")
 		
 		var Mentionable = Backbone.Model.extend({
 			defaults: function() {
@@ -82,9 +84,29 @@
 				mentionables.add(this)
 			},
 		})
-			
+		
+		var uri_set = {}
+		var uri_set_empty = true
+		
+		
 		var MentionableList = Backbone.Collection.extend({
 			model: Mentionable,
+			
+			add: function(mentionable){
+				console.log(mentionable)
+				if (uri_set.hasOwnProperty(mentionable.uri)){
+					return
+				}
+				uri_set_empty = false
+				uri_set[mentionable.get("uri")] = mentionable
+				console.log(uri_set)
+				Backbone.Collection.prototype.add.call(this, mentionable)
+			},
+			
+			remove: function(mentionable){
+				delete uri_set[mentionable.uri]
+				Backbone.Collection.prototype.remove.call(this, mentionable)
+			}
 		})
 		
 		var MentionableView = Backbone.View.extend({
@@ -148,9 +170,6 @@
 		var mentionableView = new MentionListView(mentionables, $("#mentionable-list"))
 		var mentionedView = new MentionListView(mentioned, $("#mentioned-list"))
 		
-		var uri_set = {}
-		var uri_set_empty = true
-		
 		var sparqlRelatedThings = Handlebars.compile($("#sparql-related-things").html())
 		var relatedThings = Handlebars.compile($("#related-things").html())
 		
@@ -163,36 +182,40 @@
 		sparqler.setOutput("json")
 		sparqler.setMethod("POST")
 		
-			
-		var query = sparqler.createQuery()
-			
-			
-		query.query(
-			sparqlRelatedThings({uri:$("#thing-link").attr("data-uri")}),
-			{
-				failure: function(){
-					console.log("fail")
-				},
-				success: function(json) {
-
-					for(var i=0; i<json.results.bindings.length; i++){
-						var item = json.results.bindings[i]
-						if (item.thing.type == "uri" && 'name' in item){
-							var raw = { uri:item.thing.value, label:item.name.value}
-							if (!(uri_set.hasOwnProperty(raw.uri))){
-								uri_set[raw.uri] = true
-								uri_set_empty = false
-								mentionables.push(new Mentionable({ uri:item.thing.value, label:item.name.value}))
+		get_mentionables()
+		
+		function get_mentionables(){
+			var query = sparqler.createQuery()
+				
+				
+			query.query(
+				sparqlRelatedThings({uri:$("#thing-link").attr("data-uri")}),
+				{
+					failure: function(){
+						done()
+					},
+					success: function(json) {
+	
+						for(var i=0; i<json.results.bindings.length; i++){
+							var item = json.results.bindings[i]
+							if (item.thing.type == "uri" && 'name' in item){
+								mentionables.add(new Mentionable({ uri:item.thing.value, label:item.name.value}))
 							}
 						}
-					}
-					
-					if (!uri_set_empty){
-						$("#didyoumention").removeAttr("hidden")
+						done()
 					}
 				}
+			)
+		}
+		
+		function done(){
+			console.log(uri_set)
+			if (!uri_set_empty){
+				$("#didyoumention").removeAttr("hidden")
 			}
-		)
+					
+			submitButton.removeAttr("disabled")
+		}
 	})
 </script>
 {% endverbatim %}
