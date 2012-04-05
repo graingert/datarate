@@ -161,6 +161,7 @@
 			
 			removeOne: function(mentionable){
 				this._viewPointers[mentionable.cid].remove()
+				delete this._viewPointers[mentionable.cid]
 			},
 		})
 		
