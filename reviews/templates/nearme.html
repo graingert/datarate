@@ -141,7 +141,7 @@
 		function geolocate(e){
 			navigator.geolocation.getCurrentPosition(
 			function(position){
-				nearme(position.coords.latitude, position.coords.longitude, 0.005)
+				nearme(position.coords.latitude, position.coords.longitude, 0.1)
 			}, function (error){
 				console.log(error)
 				switch(error.code) 
