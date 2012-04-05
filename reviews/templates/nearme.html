@@ -2,14 +2,24 @@
 {% load verbatim %}
 {% block content %}
 
-<form id="nearme-settings">
-	<p><input name="latitude" min="-90" max="90" value="50.942921"/></p>
-	<p><input name="longitude" min="-180" max="180" value="-1.401112"/></p>
-	<p><input name="radius" value="0.1"/></p>
-	<input type="submit" disabled="disabled" />
-</form>
-<div class="row">
-	<ul id="things-nearme" class="span4 offset4"></ul>
+<h1>Geolocate Things near me</h1>
+<div id="geo">
+<button id="geolocate" class="btn btn-primary btn-large">Geolocate</button>
+</div>
+
+<div id="geofallback" hidden="hidden">
+	<div class="alert alert-error">
+		Sorry, had to fall back to manual location entry because <span class="reason">something went wrong</span>
+    </div>
+	<form id="nearme-settings">
+		<p><input name="latitude" min="-90" max="90" value="50.942921"/></p>
+		<p><input name="longitude" min="-180" max="180" value="-1.401112"/></p>
+		<p><input name="radius" value="0.1"/></p>
+		<input type="submit" disabled="disabled" />
+	</form>
+</div>
+<div class="row" hidden="hidden" id="things-nearme">
+
 </div>
 {% endblock content %}
 
@@ -34,22 +44,32 @@
 </script>
 
 <script id="things-nearme-tmpl" type="text/x-handlebars-template">
-	<ol class="thing-stream stream well">
-		{{#things}}
-		<li>
-		<article class="thing">
-			<header>
-				<a href="{{uri}}">
-					<h2 class="name">{{name}}</h2>
-				</a>
-			</header>
-			<div class="btn-group">
-				<a class="btn" href="{{api_url}}">View Reviews</a>
+	<div  class="span4">
+		<h2>Geolocated Things</h2>
+		<p>Your location: {{lng}}, {{lat}}<p>
+		{{#if things.length}}
+			<ol class="thing-stream stream well">
+				{{#things}}
+				<li>
+				<article class="thing">
+					<header>
+						<a href="{{uri}}">
+							<h2 class="name">{{name}}</h2>
+						</a>
+					</header>
+					<div class="btn-group">
+						<a class="btn" href="{{api_url}}">View Reviews</a>
+					</div>
+				</article>
+				</li>
+				{{/things}}
+			</ol>
+		{{else}}
+			<div class="alert alert-error">
+				Sorry, no Things nearby
 			</div>
-		</article>
-		</li>
-		{{/things}}
-	</ol>
+		{{/if}}
+	</div>
 </script>
 
 
@@ -92,14 +112,62 @@
 		sparqler.setMethod("POST")
 		
 		
-		$("#nearme-settings").submit(function(e){
 		
-			var lat = parseFloat($(this).find("input[name=latitude]").val())
-			var lng = parseFloat($(this).find("input[name=longitude]").val())
-			var radius = parseFloat($(this).find("input[name=radius]").val())
+		if (navigator.geolocation) {
+			console.log("geolocation supported")
+			$("#geolocate").click(geolocate)
+		} else {
+			fallback("Geolocation is unsuported on this platform")
+		}
+		
+		function fallback(reason){
+			$("#geo").attr("hidden", "hidden")
+			
+			$("#nearme-settings").submit(function(e){
+				var lat = parseFloat($(this).find("input[name=latitude]").val())
+				var lng = parseFloat($(this).find("input[name=longitude]").val())
+				var radius = parseFloat($(this).find("input[name=radius]").val())
+				
+				nearme(lat, lng, radius)
+				return false
+			})
+			$("#nearme-settings input[type=submit]").removeAttr("disabled")
+			
+			
+			$("#geofallback reason").html(reason)
+			$("#geofallback").removeAttr("hidden")
+		}
+		
+		function geolocate(e){
+			navigator.geolocation.getCurrentPosition(
+			function(position){
+				nearme(position.coords.latitude, position.coords.longitude, 0.005)
+			}, function (error){
+				console.log(error)
+				switch(error.code) 
+				{
+					case error.TIMEOUT:
+						fallback('Geolocation Timed out');
+						break;
+					case error.POSITION_UNAVAILABLE:
+						fallback ('your Position was unavailable');
+						break;
+					case error.PERMISSION_DENIED:
+						fallback ('permission to the Geolocation API was denied');
+						break;
+					case error.UNKNOWN_ERROR:
+					default:
+						fallback ('something went wrong');
+						break;
+				}
+			},
+			
+			{ enableHighAccuracy: true }
+			)
+		}
+		
+		function nearme(lat, lng, radius){
 			var earth_r = 6371.0; //Earth's radius
-			
-			
 			// first-cut bounding box (in degrees)
 			var maxLat = lat + rad2deg(radius/earth_r)
 			var minLat = lat - rad2deg(radius/earth_r)
@@ -117,6 +185,8 @@
 					},
 					success: function(json) {
 						context = {
+								lng: lng,
+								lat: lat,
 								things: []
 						}
 						for(var i=0; i<json.results.bindings.length; i++){
@@ -124,12 +194,11 @@
 							context.things.push({uri : item.s.value,  name : item.label.value, api_url: URI("/thing.html").search({uri : item.s.value}) })
 						}
 						$("#things-nearme").html(thingsNearme(context))
+						$("#things-nearme").removeAttr("hidden")
 					}
 				}
 			)
-		return false
-		})
-		$("#nearme-settings input[type=submit]").removeAttr("disabled")
+		}
 	})
 </script>
 {%endverbatim%}
