@@ -1,4 +1,5 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
+{% block title %}Reviews - {% endblock title%}  
 {% block content %}
     <h2>Reviews</h2>
     {% include "reviews/review_list_incl.html" with reviews=object_list request=request only%}

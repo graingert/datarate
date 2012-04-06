@@ -1,4 +1,5 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
+{% block title %}{{object.text|slice:":30"}} - {% endblock title%} 
 {% block content %}
 <ul class="review-stream well">
             <li>
@@ -6,7 +7,6 @@
 					<header>
 						<a href="{{object.get_absolute_url}}">
 							<span class="rating">{{ object.rating}}</span>
-							<span class="title">{{ object.title }}</span>
 							<address class="author">
 								<img class="avatar" src="{{ object.author.get_profile.gravatar_url }}" />
 								<span class="nickname">{{ object.author.get_profile.nickname }}</span>

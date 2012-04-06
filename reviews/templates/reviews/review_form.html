@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load verbatim %}
+{% block title %}Reviewing {{thing|slice:":30"}} - {% endblock title%}  
 {% block extra_head %}
 	<link rel="stylesheet" href="{{ STATIC_URL }}reviews/form.css" type="text/css" />
     {{ form.media.css }}
