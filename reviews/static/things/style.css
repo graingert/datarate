@@ -2,3 +2,11 @@
     font-size: 3em;
     line-height: 1em;
 }
+
+small {
+	font-size: x-small;
+}
+
+.thing .uri {
+	color: grey;
+}
