@@ -3,7 +3,7 @@
 {% block content %}
 	
 	<div class="row">
-		<div class="span9">
+		<div class="reviews span9">
 			{% if object.review_set.all %}
 			<ul class="thumbnails">
 				<li class="span4">
@@ -15,11 +15,11 @@
 					<div class="average thumbnail">
 						<dl>
 							<dt>Average Rating</dt>
-							<dd class="thing-stat average-rating">{{object.review__rating__avg}}</dd>
+							<dd class="average-rating">{{object.review__rating__avg}}</dd>
 							<dt>Total Rating</dt>
-							<dd class="thing-stat total-rating">{{object.review__rating__sum}}</dd>
+							<dd class="total-rating">{{object.review__rating__sum}}</dd>
 							<dt>Number of Ratings</dt>
-							<dd class="thing-stat count-rating">{{object.review__count}}</dd>
+							<dd class="count-rating">{{object.review__count}}</dd>
 						</dl>
 	
 					</div>

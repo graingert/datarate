@@ -35,3 +35,9 @@
 	content: "Great";
 	color: green;
 }
+
+.average dd {
+    font-size: 3em;
+    line-height: 1em;
+}
+
