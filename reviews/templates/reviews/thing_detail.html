@@ -5,14 +5,15 @@
 	<div class="row">
 		<div class="reviews span9">
 			{% if object.review_set.all %}
-			<ul class="thumbnails">
-				<li class="span4">
+			<div class="aggregate">
+				<h2>Aggregate</h2>
+				<div class="span4">
 					<div class="thumbnail">
 						<img class="google-chart" src="{{object.chart}}" />
 					</div>
-				</li>
-				<li class="span4 offset4">
-					<div class="average thumbnail">
+				</div>
+				<div class="span4">
+					<div class="thumbnail">
 						<dl>
 							<dt>Average Rating</dt>
 							<dd class="average-rating">{{object.review__rating__avg}}</dd>
@@ -23,8 +24,8 @@
 						</dl>
 	
 					</div>
-				</li>
-			</ul>
+				</div>
+			</div>
 			
 		    <h2>Reviews</h2>
 				{% include "reviews/review_list_incl.html" with reviews=reviews.object_list thing=object request=request only%}
@@ -53,7 +54,7 @@
 			{% else %}
 				No reviews have been created yet.
 			{% endif %}
-			<a class="btn btn-large btn-primary" href="{% url create-review object.slug %}">Review this Thing</a>
+			<a class="btn btn-large btn-primary" href="{% url create-review object.slug %}">Add a Review</a>
 		</div>
 		<div class="span3">
 			<article class="thing">
