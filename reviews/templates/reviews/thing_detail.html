@@ -1,67 +1,72 @@
 {% extends "base.html" %}
 {% block title %}{{object|slice:":30"}} - {% endblock title%}  
 {% block content %}
-	<article class="thing">
-		<header>
-			<a href="{{object.uri}}">
-				<h2 class="name">{{object}}</h2>
-			</a>
-			<small class="uri">{{object.uri}}</small>
-		</header>
-		<div class="description">
-			{{object.description|safe}} {# This is not actually safe #}
+	
+	<div class="row">
+		<div class="span9">
+			{% if object.review_set.all %}
+			<ul class="thumbnails">
+				<li class="span4">
+					<div class="thumbnail">
+						<img class="google-chart" src="{{object.chart}}" />
+					</div>
+				</li>
+				<li class="span4 offset4">
+					<div class="average thumbnail">
+						<dl>
+							<dt>Average Rating</dt>
+							<dd class="thing-stat average-rating">{{object.review__rating__avg}}</dd>
+							<dt>Total Rating</dt>
+							<dd class="thing-stat total-rating">{{object.review__rating__sum}}</dd>
+							<dt>Number of Ratings</dt>
+							<dd class="thing-stat count-rating">{{object.review__count}}</dd>
+						</dl>
+	
+					</div>
+				</li>
+			</ul>
+			
+		    <h2>Reviews</h2>
+				{% include "reviews/review_list_incl.html" with reviews=reviews.object_list thing=object request=request only%}
+			<div class="pagination">
+			    <ul>
+					{% if reviews.has_previous %}
+						<li><a href="?page={{ reviews.previous_page_number }}">Prev</a></li>
+					{% else %}
+						<li class="disabled"><a href="#">Prev</a></li>
+					{% endif %}
+				    {% for page in reviews.page_range %}
+							<li {% if page == reviews.number %} class="active" {% endif %}>
+								<a href="?page={{ page }}">{{page}}</a>
+							</li>
+					{% endfor %}
+					{% if reviews.has_next %}
+						<li><a href="?page={{ reviews.next_page_number }}">Next</a></li>
+					{% else %}
+						<li class="disabled"><a href="#">Next</a></li>
+					{% endif %}
+			    </ul>
+		    </div>
+			
+			
+			
+			{% else %}
+				No reviews have been created yet.
+			{% endif %}
+			<a class="btn btn-large btn-primary" href="{% url create-review object.slug %}">Review this Thing</a>
 		</div>
-		
-		{% if object.review_set.all %}
-		
-		<ul class="thumbnails">
-			<li class="span4">
-				<div class="thumbnail">
-					<img class="google-chart" src="{{object.chart}}" />
+		<div class="span3">
+			<article class="thing">
+				<header>
+					<a href="{{object.uri}}">
+						<h2 class="name">{{object}}</h2>
+					</a>
+					<small class="uri">{{object.uri}}</small>
+				</header>
+				<div class="description">
+					{{object.description|safe}} {# This is not actually safe #}
 				</div>
-			</li>
-			<li class="span4 offset4">
-				<div class="average thumbnail">
-					<dl>
-						<dt>Average Rating</dt>
-						<dd class="thing-stat average-rating">{{object.review__rating__avg}}</dd>
-						<dt>Total Rating</dt>
-						<dd class="thing-stat total-rating">{{object.review__rating__sum}}</dd>
-						<dt>Number of Ratings</dt>
-						<dd class="thing-stat count-rating">{{object.review__count}}</dd>
-					</dl>
-
-				</div>
-			</li>
-		</ul>
-		
-	    <h2>Reviews</h2>
-			{% include "reviews/review_list_incl.html" with reviews=reviews.object_list thing=object request=request only%}
-		<div class="pagination">
-		    <ul>
-				{% if reviews.has_previous %}
-					<li><a href="?page={{ reviews.previous_page_number }}">Prev</a></li>
-				{% else %}
-					<li class="disabled"><a href="#">Prev</a></li>
-				{% endif %}
-			    {% for page in reviews.page_range %}
-						<li {% if page == reviews.number %} class="active" {% endif %}>
-							<a href="?page={{ page }}">{{page}}</a>
-						</li>
-				{% endfor %}
-				{% if reviews.has_next %}
-					<li><a href="?page={{ reviews.next_page_number }}">Next</a></li>
-				{% else %}
-					<li class="disabled"><a href="#">Next</a></li>
-				{% endif %}
-		    </ul>
-	    </div>
-		
-		
-		
-		{% else %}
-			No reviews have been created yet.
-		{% endif %}
-		<a class="btn btn-large btn-primary" href="{% url create-review object.slug %}">Review this Thing</a>
-	</article>
+			</article>
+		</div>
+	</div>
 {% endblock content%}
