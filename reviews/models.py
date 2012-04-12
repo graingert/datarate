@@ -34,10 +34,11 @@ class RangeField(m.IntegerField):
 		super(RangeField, self).__init__(*args, **kwargs)
 
 #http://www.evanmiller.org/how-not-to-sort-by-average-rating.html
-def ci_lower_bound(pos, n):
+def ci_lower_bound(pos, neg):
+	n = pos+neg
 	if n == 0:
 		return 0
-	return ((pos + 1.9208) / (n) -  1.96 * math.sqrt((n) / (n) + 0.9604) / (n)) / (1 + 3.8416 / (n))
+	return ((pos + 1.9208) / (n) -  1.96 * math.sqrt((pos*neg) / (n) + 0.9604) / (n)) / (1 + 3.8416 / (n))
 
 class Thing(m.Model):
 	uri = m.URLField(verify_exists=False, unique=True)
@@ -148,7 +149,7 @@ class Thing(m.Model):
 			pos += pos_rating
 			setattr(self, "review_%s_count" % str(rating), count)
 		
-		self.ci_lower_bound = ci_lower_bound(pos, pos+neg)
+		self.ci_lower_bound = ci_lower_bound(pos, neg)
 		self.save()
 
 class Review(m.Model):
