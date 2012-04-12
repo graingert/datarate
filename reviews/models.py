@@ -12,6 +12,7 @@ import urllib, hashlib, urlparse, urllib2
 from rdflib import ConjunctiveGraph, Namespace, exceptions
 from rdflib import URIRef, RDFS, RDF, BNode
 import bleach
+import math
 # Create your models here.
 
 class StepValidator():
@@ -31,12 +32,18 @@ class RangeField(m.IntegerField):
 		if step:
 			validators.append(StepValidator(min_value, step))
 		super(RangeField, self).__init__(*args, **kwargs)
-		
+
+#http://www.evanmiller.org/how-not-to-sort-by-average-rating.html
+def ci_lower_bound(pos, n):
+	if n == 0:
+		return 0
+	return ((pos + 1.9208) / (n) -  1.96 * math.sqrt((n) / (n) + 0.9604) / (n)) / (1 + 3.8416 / (n))
 
 class Thing(m.Model):
 	uri = m.URLField(verify_exists=False, unique=True)
 	slug = AutoSlugField(populate_from="uri", unique=True, )
 	label = m.CharField(max_length=30)
+	ci_lower_bound = m.FloatField(default = 0)
 	
 	for score in range(SCALE):
 		locals()['review_%s_count' % str(score)] = m.IntegerField(default=0)
@@ -100,9 +107,24 @@ class Thing(m.Model):
 		for point in range(SCALE):
 			setattr(self, "review_%s_count" % str(point), 0)
 		
-		for rating_count in rating_counts:
-			setattr(self, "review_%s_count" % str(rating_count["rating"]), rating_count["count"])
+		#set values based on calculated rating counts
+		#and calculate statistics required for ci_lower_bound
 		
+		max_positive = SCALE-1
+		pos = 0
+		neg = 0
+		for rating_count in rating_counts:
+			rating = rating_count["rating"]
+			count = rating_count["count"]
+			
+			neg_rating = (max_positive - rating)
+			pos_rating = rating
+			
+			neg += neg_rating
+			pos += pos_rating
+			setattr(self, "review_%s_count" % str(rating), count)
+		
+		self.ci_lower_bound = ci_lower_bound(pos, pos+neg)
 		self.save()
 
 class Review(m.Model):

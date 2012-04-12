@@ -26,10 +26,10 @@ class PreviewView(TemplateView):
 		context = super(PreviewView, self).get_context_data(**kwargs)
 		
 		things = Thing.objects
-		total_scores = things.annotate(Sum('review__rating'))
+		total_scores = things
 		
-		context["best"] = total_scores.order_by("-review__rating__sum")[:5]
-		context["worst"] = total_scores.order_by("review__rating__sum")[:5]
+		context["best"] = total_scores.order_by("-ci_lower_bound")[:5]
+		context["worst"] = total_scores.order_by("ci_lower_bound")[:5]
 		context["reviews"] = Review.objects.all().order_by("-date_created")[:5]
 				
 		return context
@@ -97,6 +97,7 @@ class ThingDetailView(DetailView):
 				average = thing.review__rating__avg,
 				count = thing.review__count,
 				reviews = self.request.build_absolute_uri(thing.get_absolute_url()),
+				ci_lower_bound = self.ci_lower_bound,
 			)
 			
 			response = http.HttpResponse(json.dumps(output),
