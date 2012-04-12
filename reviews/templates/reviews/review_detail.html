@@ -6,7 +6,7 @@
 				<article class="review">
 					<header>
 						<a href="{{object.get_absolute_url}}">
-							<span class="rating">{{ object.rating}}</span>
+							<span class="rating" data-value="{{object.rating}}">{{object.rating_label}}</span>
 							<address class="author">
 								<img class="avatar" src="{{ object.author.get_profile.gravatar_url }}" />
 								<span class="nickname">{{ object.author.get_profile.nickname }}</span>

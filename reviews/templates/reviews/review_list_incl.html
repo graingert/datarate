@@ -15,7 +15,7 @@
 						{% else %}
 						this
 						{% endif %}
-						a rating of <span class="rating" data-value="{{review.rating}}">{{review.stars}}</span>
+						a rating of <span class="rating" data-value="{{review.rating}}">{{review.rating_label}}</span>
 						<address class="author">
 							<img class="avatar" src="{{ review.author.get_profile.gravatar_url }}" />
 						</address>

@@ -15,6 +15,30 @@ from rdflib import URIRef, RDFS, RDF, BNode
 import bleach
 # Create your models here.
 
+
+DEFAULT_REVIEWS_SCALE = 4;
+DEFAULT_REVIEWS_SCORE_MAP = {
+				0 : {
+						"label" :"Terrible",
+						"color": "CC0000" 
+					},
+				1 : {
+						"label" :"Bad",
+						"color": "CC6600" 
+					},
+				2 : {
+						"label" :"Good",
+						"color": "99CC00" 
+					},
+				3 : {
+						"label" :"Great",
+						"color": "00CC00" 
+					}
+			}
+
+SCALE = getattr(settings,"REVIEWS_SCALE", DEFAULT_REVIEWS_SCALE)
+SCORE_MAP = getattr(settings,"REVIEWS_SCORE_MAP", DEFAULT_REVIEWS_SCORE_MAP)
+
 class StepValidator():
 	def __init__(self, min_value, step):
 		self.min_value = min_value
@@ -58,7 +82,6 @@ class Thing(m.Model):
 	def get_label(self):
 		return unicode(self.graph.label(URIRef(self.uri), urlparse.urlparse(self.uri).path))
 		
-		
 	def save(self):
 		self.label = self.get_label()[:30]
 		super(Thing, self).save()
@@ -83,29 +106,9 @@ class Thing(m.Model):
 		
 		histogram = self.histogram()
 		
-		style_map = {
-				-3:
-					{
-						"label" :"Terrible",
-						"color": "CC0000" 
-					},
-				-1 : {
-						"label" :"Bad",
-						"color": "CC6600" 
-					},
-				1 : {
-						"label" :"Good",
-						"color": "99CC00" 
-					},
-				3 : {
-						"label" :"Great",
-						"color": "00CC00" 
-					},
-			}
-		
 		
 		for point in histogram:
-			style = style_map[point["rating"]]
+			style = SCORE_MAP[point["rating"]]
 			
 			labels.append(style["label"])
 			colors.append(style["color"])
@@ -121,7 +124,7 @@ class Review(m.Model):
 	date_created = CreationDateTimeField()
 	date_modified = ModificationDateTimeField()
 	#title = m.CharField(max_length=128)
-	rating = RangeField(min_value=-3, max_value = 3, step = 2)
+	rating = RangeField(min_value=0, max_value = SCALE-1, step = 1)
 	text = m.TextField(verbose_name="Detailed Review")
 	author = m.ForeignKey(User, editable=False)
 	reviewed_uri = m.ForeignKey(Thing)
@@ -131,6 +134,9 @@ class Review(m.Model):
 		thing_url = self.reviewed_uri.get_absolute_url()
 		return thing_url + '#review-' + str(self.id)
 		
+	def rating_label(self):
+		return SCORE_MAP[self.rating]["label"]
+	
 	def __unicode__(self):
 		return self.text[:140]
 		
