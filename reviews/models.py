@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.db import models as m
 from django.contrib.auth.models import User
 from django_extensions.db.fields import AutoSlugField, CreationDateTimeField, ModificationDateTimeField
@@ -6,7 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models.signals import post_save, pre_save
 from django.db.models import Count, Sum
 from GChartWrapper import Pie
-
+from reviews import SCALE, SCORE_MAP
 import thingvalidator
 
 import urllib, hashlib, urlparse, urllib2
@@ -14,30 +13,6 @@ from rdflib import ConjunctiveGraph, Namespace, exceptions
 from rdflib import URIRef, RDFS, RDF, BNode
 import bleach
 # Create your models here.
-
-
-DEFAULT_REVIEWS_SCALE = 4;
-DEFAULT_REVIEWS_SCORE_MAP = {
-				0 : {
-						"label" :"Terrible",
-						"color": "CC0000" 
-					},
-				1 : {
-						"label" :"Bad",
-						"color": "CC6600" 
-					},
-				2 : {
-						"label" :"Good",
-						"color": "99CC00" 
-					},
-				3 : {
-						"label" :"Great",
-						"color": "00CC00" 
-					}
-			}
-
-SCALE = getattr(settings,"REVIEWS_SCALE", DEFAULT_REVIEWS_SCALE)
-SCORE_MAP = getattr(settings,"REVIEWS_SCORE_MAP", DEFAULT_REVIEWS_SCORE_MAP)
 
 class StepValidator():
 	def __init__(self, min_value, step):

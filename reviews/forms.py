@@ -1,6 +1,7 @@
 from django.forms import ModelForm, HiddenInput, MultipleHiddenInput, SelectMultiple, CharField
 from models import Thing, Review, UserProfile
 from rays.widgets import RangeInput
+from reviews import SCALE, SCORE_MAP
 
 
 class ReviewForm(ModelForm):
@@ -8,7 +9,7 @@ class ReviewForm(ModelForm):
 		model = Review
 		exclude = ("author",)
 		widgets = {
-			'rating': RangeInput(min_value=0, max_value=3, step=1), #uses 4 states preventing any "on the fence choices"
+			'rating': RangeInput(min_value=0, max_value=SCALE-1, step=1), #uses 4 states preventing any "on the fence choices"
 			'reviewed_uri' : HiddenInput(),
 			'mentioned' : HiddenInput(),
 		}
