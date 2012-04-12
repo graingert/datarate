@@ -83,7 +83,7 @@ class Thing(m.Model):
 		
 	def chart(self):
 		labels=[]
-		count=[]
+		counts=[]
 		colors=[]
 		
 		
@@ -92,10 +92,34 @@ class Thing(m.Model):
 			
 			labels.append(style["label"])
 			colors.append(style["color"])
-			count.append(getattr(self, "review_%s_count" % str(point)))
+			counts.append(getattr(self, "review_%s_count" % str(point)))
 		
-		return unicode(Pie(count,apiurl="https://chart.googleapis.com/chart?").color(*colors).label(*labels))
+		return unicode(Pie(counts,apiurl="https://chart.googleapis.com/chart?").color(*colors).label(*labels))
 	
+	def table(self):
+		points = []
+		total = 0
+		for point in range(SCALE):
+			style = SCORE_MAP[point]
+			count = getattr(self, "review_%s_count" % str(point))
+			
+			if count > 0:
+				points.append({
+					"label" : style["label"],
+					"count" : count,
+					"color" : style["color"],
+				})
+				
+				total += count
+		
+		if total == 0:
+			return points
+			
+		for point in points:
+			point["percentage"] = (point["count"]/float(total)) * 100.0
+			
+		return points
+		
 	@classmethod
 	def construct_from_uri(cls, uri):
 		return thingvalidator.construct_from_uri(uri)

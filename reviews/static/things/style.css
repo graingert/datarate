@@ -5,3 +5,8 @@ small {
 .thing .uri {
 	color: grey;
 }
+
+.horiz-bar-chart {
+	color: white;
+	width: 100%;
+}
