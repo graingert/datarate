@@ -38,6 +38,9 @@ class Thing(m.Model):
 	slug = AutoSlugField(populate_from="uri", unique=True, )
 	label = m.CharField(max_length=30)
 	
+	for score in range(SCALE):
+		locals()['review_%s_count' % str(score)] = m.IntegerField(default=0)
+	
 	def __unicode__(self):
 		return self.label
 	
@@ -70,30 +73,37 @@ class Thing(m.Model):
 		)
 		desc = bleach.clean(unicode(desc), tags = bleach.ALLOWED_TAGS + ["p",])
 		return desc
-	
-	def histogram(self):
-		return self.review_set.values('rating').order_by('-rating').annotate(count = Count('rating'))
 		
 	def chart(self):
 		labels=[]
 		count=[]
 		colors=[]
 		
-		histogram = self.histogram()
 		
-		
-		for point in histogram:
-			style = SCORE_MAP[point["rating"]]
+		for point in range(SCALE):
+			style = SCORE_MAP[point]
 			
 			labels.append(style["label"])
 			colors.append(style["color"])
-			count.append(point["count"])
+			count.append(getattr(self, "review_%s_count" % str(point)))
 		
 		return unicode(Pie(count,apiurl="https://chart.googleapis.com/chart?").color(*colors).label(*labels))
 	
 	@classmethod
 	def construct_from_uri(cls, uri):
 		return thingvalidator.construct_from_uri(uri)
+		
+	def recalculate_rating_counts(self):
+		rating_counts = self.review_set.values('rating').order_by('-rating').annotate(count = Count('rating'))
+		
+		#clear all the values
+		for point in range(SCALE):
+			setattr(self, "review_%s_count" % str(point), 0)
+		
+		for rating_count in rating_counts:
+			setattr(self, "review_%s_count" % str(rating_count["rating"]), rating_count["count"])
+		
+		self.save()
 
 class Review(m.Model):
 	date_created = CreationDateTimeField()
@@ -117,9 +127,8 @@ class Review(m.Model):
 		
 	class Meta:
 		unique_together = ("author", "reviewed_uri")
-
-class ExtendedReview(Review):
-	extra = m.TextField()
+		
+	
 
 class UserProfile(m.Model):
 	# This field is required.
@@ -142,8 +151,12 @@ class UserProfile(m.Model):
 	@m.permalink
 	def get_absolute_url(self):
 		return('profile', [self.pk])
-	
 		
+		
+def recalculate_rating_counts(sender, instance, created, **kwargs):
+	instance.reviewed_uri.recalculate_rating_counts()
+	
+post_save.connect(recalculate_rating_counts, sender=Review)
 
 """
 Set the first_name to the first part of the email address and cache the
