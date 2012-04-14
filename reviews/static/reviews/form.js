@@ -1,3 +1,28 @@
+function lcs(lcstest, lcstarget) {
+	//http://cache.mifio.com/javascript002.html
+ matchfound = 0
+ lsclen = lcstest.length
+  for(lcsi=0; lcsi<lcstest.length; lcsi++){
+   lscos=0
+    for(lcsj=0; lcsj<lcsi+1; lcsj++){
+     re = new RegExp("(?:.{" + lscos + "})(.{" + lsclen + "})", "i");
+     temp = re.test(lcstest);
+     re = new RegExp("(" + RegExp.$1 + ")", "i");
+      if(re.test(lcstarget)){
+       matchfound=1;
+       result = RegExp.$1;
+       break;
+       }
+     lscos = lscos + 1;
+     }
+     if(matchfound==1){return result; break;}
+    lsclen = lsclen - 1;
+   }
+  result = "";
+  return result;
+}
+
+
 $(function(){
 	//Mentionable model
 	var form = $("#review-form")
@@ -5,10 +30,12 @@ $(function(){
 	submitButton.attr("disabled", "disabled")
 	
 	var Mentionable = Backbone.Model.extend({
+		
 		defaults: function() {
 			return {
 				label: "no label",
 				uri: "no uri",
+				relevance: 0,
 			}
 		},
 		
@@ -21,6 +48,10 @@ $(function(){
 			mentioned.remove(this)
 			mentionables.add(this)
 		},
+		
+		relevance:function(text){
+			this.set("relevance", lcs(text, this.get("label")).length)
+		}
 	})
 	
 	var uri_set = {}
@@ -44,8 +75,14 @@ $(function(){
 			Backbone.Collection.prototype.remove.call(this, mentionable)
 		},
 		
-		comparator: function(mentionable){
-			return mentionable.get("label")
+		comparator: function(mentionable1, mentionable2){
+			return mentionable2.get("relevance") - mentionable1.get("relevance")
+		},
+		
+		relevance: function(text){
+			this.forEach(function(mentionable){
+				mentionable.relevance(text)
+			})
 		}
 	})
 	
@@ -157,10 +194,16 @@ $(function(){
 	
 	var mentionedInput = $("#review-form input[name=mentioned]")
 	
-	$("#sortdym").click(function(e){
-		e.preventDefault()
+	function calculateRelevance(){
+		console.log("recalculating")
+		mentionables.relevance($("#id_text").val())
 		mentionables.sort()
-	})
+	}
+	
+	var lazyCalculateRelevance = _.debounce(calculateRelevance, 300, true)
+	
+	
+	$("#id_text").bind("change keyup", lazyCalculateRelevance)
 	
 	function addPreviousThings(){
 		var uris = []
@@ -176,11 +219,11 @@ $(function(){
 		})
 	}
 	
+
 	
 	function done(){
 		addPreviousThings()
-		
-		mentionables.sort()
+		calculateRelevance()
 		if (!uri_set_empty){
 			$("#didyoumention").removeAttr("hidden")
 		}
