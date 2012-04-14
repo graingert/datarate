@@ -42,6 +42,10 @@ $(function(){
 		remove: function(mentionable){
 			delete uri_set[mentionable.uri]
 			Backbone.Collection.prototype.remove.call(this, mentionable)
+		},
+		
+		comparator: function(mentionable){
+			return mentionable.get("label")
 		}
 	})
 	
@@ -75,13 +79,17 @@ $(function(){
 	var MentionListView = Backbone.View.extend({
 		
 		initialize: function(collection, list) {
+			_.bindAll(this)
 			this._viewPointers = []
-			
-			collection.bind('add', this.addOne, this)
-			collection.bind('reset', this.addAll, this)
-			collection.bind('all', this.render, this)
-			collection.bind('remove', this.removeOne, this)
+			this.collection = collection
+			this.collection.bind('add', this.addOne, this)
+			this.collection.bind('reset', this.reset, this)
+			this.collection.bind('all', this.render, this)
+			this.collection.bind('remove', this.removeOne, this)
+			//List element on DOM that this view is bound to
 			this.list = list
+			
+			console.log(this.collection)
 		},
 		
 		addOne: function(mentionable) {
@@ -90,8 +98,10 @@ $(function(){
 			this.list.append(view.render().el)
 		},
 		
-		addAll: function() {
-			collection.each(this.addOne);
+		reset: function() {
+			this.list.empty()
+			this._viewPointers = []
+			this.collection.each(this.addOne);
 		},
 		
 		removeOne: function(mentionable){
@@ -147,6 +157,11 @@ $(function(){
 	
 	var mentionedInput = $("#review-form input[name=mentioned]")
 	
+	$("#sortdym").click(function(e){
+		e.preventDefault()
+		mentionables.sort()
+	})
+	
 	function addPreviousThings(){
 		var uris = []
 		try{
@@ -164,10 +179,12 @@ $(function(){
 	
 	function done(){
 		addPreviousThings()
+		
+		mentionables.sort()
 		if (!uri_set_empty){
 			$("#didyoumention").removeAttr("hidden")
 		}
-		form.submit(function(event){
+		form.submit(function(e){
 			var uris = []
 			mentioned.each(function(mentionable){
 				console.log(mentionable)
