@@ -44,7 +44,8 @@ class Thing(m.Model):
 	uri = m.URLField(verify_exists=False, unique=True)
 	slug = AutoSlugField(populate_from="uri", unique=True, )
 	label = m.CharField(max_length=30)
-	ci_lower_bound = m.FloatField(default = 0)
+	ci_lower_bound = m.FloatField(null=True)
+	ci_lower_bround_reversed = m.FloatField(null=True)
 	
 	for score in range(SCALE):
 		locals()['review_%s_count' % str(score)] = m.IntegerField(default=0)
@@ -149,7 +150,12 @@ class Thing(m.Model):
 			pos += pos_rating
 			setattr(self, "review_%s_count" % str(rating), count)
 		
-		self.ci_lower_bound = ci_lower_bound(pos, neg)
+		if (pos+neg = 0):
+			self.ci_lower_bound = None
+			self.ci_lower_bround_reversed = None
+		else:
+			self.ci_lower_bound = ci_lower_bound(pos, neg)
+			self.ci_lower_bround_reversed = ci_lower_bound(neg, pos)
 		self.save()
 
 class Review(m.Model):

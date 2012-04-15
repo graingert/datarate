@@ -26,12 +26,12 @@ class PreviewView(TemplateView):
 		context = super(PreviewView, self).get_context_data(**kwargs)
 		
 		things = Thing.objects
-		total_scores = things
+		total_scores = things.filter(ci_lower_bound__isnull=False, ci_lower_bound_reversed__isnull=False)
 		
 		context["best"] = total_scores.order_by("-ci_lower_bound")[:5]
-		context["worst"] = total_scores.order_by("ci_lower_bound")[:5]
+		context["worst"] = total_scores.order_by("-ci_lower_bound_reversed")[:5]
 		context["reviews"] = Review.objects.all().order_by("-date_created")[:5]
-				
+
 		return context
 
 
