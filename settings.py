@@ -182,7 +182,6 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 )
 
 BROWSERID_CREATE_USER = True
-
 SITE_URL="http://localhost:8000"
 
 AUTH_PROFILE_MODULE = "reviews.UserProfile"
@@ -192,6 +191,7 @@ LOGIN_URL = '/sign-in'
 LOGIN_REDIRECT_URL_FAILURE = '/'
 
 SESSION_COOKIE_SECURE = True
+BROWSERID_CREATE_USER = "datarate.reviews.views.create_user"
 
 try:
 	from local_settings import *

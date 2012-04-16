@@ -14,7 +14,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from datarate.django_http_exception import HttpException
 import httplib
-
+from django_browserid.views import Verify
+from django_browserid.auth import BrowserIDBackend
 from thingvalidator import ThingException
 	
 
@@ -179,3 +180,21 @@ class TagCloudView(ListView):
 	model = Thing
 	queryset = Thing.objects.all().annotate(Sum('review__rating'), Avg('review__rating'), Count('review'))
 	template_name="reviews/tagcloud.html"
+
+class EmailNotWhitelistedError(Exception):
+	pass
+
+def create_user(email):
+	if email.rsplit('@', 1)[0] in ("ecs.soton.ac.uk","soton.ac.uk"):
+		print email
+		return BrowserIDBackend().create_user(email)
+	else:
+		raise EmailNotWhitelistedError
+
+class EmailCheckingVerify(Verify):
+	def form_valid(self, form):
+		try:
+			return super(EmailCheckingVerify, self).form_valid(form)
+		except EmailNotWhitelistedError:
+			return self.login_failure()
+		
