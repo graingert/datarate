@@ -45,8 +45,8 @@ def construct_from_uri(uri):
 	except ObjectDoesNotExist:
 		#Right we don't have one, now to validate the Thing.
 		
-		netloc_whitelist = getattr(settings, 'DATARATE_NETLOC_WHITELIST', ("id.southampton.ac.uk"))
-		scheme_whitelist = getattr(settings, 'DATARATE_SCHEME_WHITELIST', ("http","https"))
+		netloc_whitelist = getattr(settings, 'REVIEWS_NETLOC_WHITELIST', ("id.southampton.ac.uk",))
+		scheme_whitelist = getattr(settings, 'REVIEWS_SCHEME_WHITELIST', ("http","https"))
 		
 		parseduri = urlparse.urlparse(uri)
 		
