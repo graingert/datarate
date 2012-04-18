@@ -152,10 +152,10 @@ class Thing(m.Model):
 		
 		if (pos+neg == 0):
 			self.ci_lower_bound = None
-			self.ci_lower_bround_reversed = None
+			self.ci_lower_bound_reversed = None
 		else:
 			self.ci_lower_bound = ci_lower_bound(pos, neg)
-			self.ci_lower_bround_reversed = ci_lower_bound(neg, pos)
+			self.ci_lower_bound_reversed = ci_lower_bound(neg, pos)
 		self.save()
 
 class Review(m.Model):
