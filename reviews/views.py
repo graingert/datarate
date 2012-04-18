@@ -17,6 +17,7 @@ import httplib
 from django_browserid.views import Verify
 from django_browserid.auth import BrowserIDBackend
 from thingvalidator import ThingException
+from reviews import EMAIL_VALIDATOR
 	
 
 class PreviewView(TemplateView):
@@ -182,20 +183,13 @@ class TagCloudView(ListView):
 	queryset = Thing.objects.all().annotate(Sum('review__rating'), Avg('review__rating'), Count('review'))
 	template_name="reviews/tagcloud.html"
 
-class EmailNotWhitelistedError(Exception):
-	pass
+email_whitelist = ("ecs.soton.ac.uk","soton.ac.uk")
 
 def create_user(email):
-	if email.rsplit('@', 1)[0] in ("ecs.soton.ac.uk","soton.ac.uk"):
-		print email
+	isvalid, message = EMAIL_VALIDATOR(email)
+	
+	if isvalid:
 		return BrowserIDBackend().create_user(email)
 	else:
-		raise EmailNotWhitelistedError
-
-class EmailCheckingVerify(Verify):
-	def form_valid(self, form):
-		try:
-			return super(EmailCheckingVerify, self).form_valid(form)
-		except EmailNotWhitelistedError:
-			return self.login_failure()
+		raise HttpException(message=message, status=httplib.UNAUTHORIZED)
 		

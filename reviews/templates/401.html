@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}401 {{w3cname}} - {% endblock title%}
+{% block content %}
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1>401 {{w3cname}}</h1>
+        <p>{{message}}</p>
+        <p><a href="{% url login %}" class="btn btn-primary btn-large">Sign in again </a></p>
+      </div>
+{% endblock content%}

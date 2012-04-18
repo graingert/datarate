@@ -1,6 +1,5 @@
 from django.conf.urls.defaults import patterns, include, url
 import reviews
-from reviews.views import EmailCheckingVerify
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 
@@ -16,7 +15,6 @@ urlpatterns = patterns('',
 
     #Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^browserid/verify/$', EmailCheckingVerify.as_view()),
     url(r'', include('django_browserid.urls')),
     (r'', include('reviews.urls')),
     url(r'^sign-out/$', 'django.contrib.auth.views.logout', name="logout"),
