@@ -98,7 +98,8 @@ class ThingDetailView(DetailView):
 				average = thing.review__rating__avg,
 				count = thing.review__count,
 				reviews = self.request.build_absolute_uri(thing.get_absolute_url()),
-				ci_lower_bound = self.ci_lower_bound,
+				ci_lower_bound = thing.ci_lower_bound,
+				ci_lower_bound_reversed = thing.ci_lower_bound_reversed,
 			)
 			
 			response = http.HttpResponse(json.dumps(output),
