@@ -23,8 +23,8 @@ function lcs(lcstest, lcstarget) {
 }
 
 $(function(){
-	$("id_rating").change(function(){
-			$("rating-text").text($(this).val)
+	$("#id_rating").change(function(){
+			$("#rating-text").text($(this).val)
 	})
 })
 
