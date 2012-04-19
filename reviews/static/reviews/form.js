@@ -24,7 +24,10 @@ function lcs(lcstest, lcstarget) {
 
 $(function(){
 	$("#id_rating").change(function(){
-			$("#rating-text").text($(this).val)
+		var val = $(this).val()
+		
+		var scale_list = ["Terrible", "Bad", "Good", "Great"]
+			$("#rating-text").text("Rating: " + scale_list[val])
 	})
 })
 
