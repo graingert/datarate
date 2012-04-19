@@ -10,6 +10,7 @@
 {% block content %}
 
 <h1>Reviewing <a id="thing-link" href="{{ thing.get_absolute_url }}" data-uri="{{thing.uri}}">{{thing}}</a></h1>
+<span id="rating-text"></span>
 <form id="review-form" method="post" action="">
 {% csrf_token %}
 {{ form.as_p }}

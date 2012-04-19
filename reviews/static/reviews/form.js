@@ -22,6 +22,11 @@ function lcs(lcstest, lcstarget) {
   return result;
 }
 
+$(function(){
+	$("id_rating").change(function(){
+			$("rating-text").text($(this).val)
+	})
+})
 
 $(function(){
 	//Mentionable model
