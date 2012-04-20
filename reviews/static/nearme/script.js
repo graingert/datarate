@@ -134,9 +134,11 @@ $(function(){
 								})
 							}
 						)
+						context.things.sort(function(a,b){
+								return (a.distance - b.distance)
+						})
 					}
 					$("#things-nearme").html(thingsNearme(context))
-					$("#things-nearme ol li").tsort({attr:"data-distance"})
 					$("#things-nearme").removeAttr("hidden")
 				}
 			}
