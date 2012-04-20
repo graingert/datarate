@@ -33,6 +33,7 @@
 <script src="{{ STATIC_URL }}3rdparty/sparql/sparql.js" type="text/javascript"></script>
 <script src="{{ STATIC_URL }}3rdparty/handlebars/handlebars-1.0.0.beta.6.js" type="text/javascript"></script>
 <script src="{{ STATIC_URL }}3rdparty/URI/URI.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}3rdparty/tinysort/jquery.tinysort.min.js" type="text/javascript"></script>
 <script src="{{ STATIC_URL }}nearme/script.js" type="text/javascript"></script>
 {%verbatim%}
 <!--http://notes.3kbo.com/sparql-geolocation-->
@@ -52,7 +53,7 @@
 		{{#if things.length}}
 			<ol class="thing-stream stream well">
 				{{#things}}
-				<li>
+				<li data-distance="{{distance}}">
 				<article class="thing">
 					<header>
 						<a href="{{uri}}">

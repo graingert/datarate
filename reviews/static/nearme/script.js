@@ -1,3 +1,5 @@
+var earth_r = 6371.0; //Earth's radius
+
 function rad2deg (angle) {
 	// Converts the radian number to the equivalent number in degrees  
 	// 
@@ -18,6 +20,12 @@ function deg2rad (angle) {
     // *     example 1: deg2rad(45);
     // *     returns 1: 0.7853981633974483
     return angle * 0.017453292519943295; // (angle / 180) * Math.PI;
+}
+
+function distance(location1, location2){
+	var l1 = location1
+	var l2 = location2
+	return Math.acos(Math.sin(deg2rad(l1.lat))*Math.sin(deg2rad(l2.lat)) + Math.cos(deg2rad(l1.lat))*Math.cos(deg2rad(l2.lat))*Math.cos(deg2rad(l2.lng-l1.lng)))*earth_r
 }
 
 $(function(){
@@ -90,7 +98,6 @@ $(function(){
 	}
 	
 	function nearme(lat, lng, radius){
-		var earth_r = 6371.0; //Earth's radius
 		// first-cut bounding box (in degrees)
 		var maxLat = lat + rad2deg(radius/earth_r)
 		var minLat = lat - rad2deg(radius/earth_r)
@@ -112,11 +119,24 @@ $(function(){
 							lat: lat,
 							things: []
 					}
+					
+					var center = {lat:lat, lng:lng}
 					for(var i=0; i<json.results.bindings.length; i++){
 						var item = json.results.bindings[i]
-						context.things.push({uri : item.s.value,  name : item.label.value, api_url: URI("/thing.html").search({uri : item.s.value}) })
+						context.things.push(
+							{
+								uri : item.s.value,
+								name : item.label.value,
+								api_url: URI("/thing.html").search({uri : item.s.value}),
+								distance: distance(center, {
+									lat :item.lat.value,
+									lng:item.long.value
+								})
+							}
+						)
 					}
 					$("#things-nearme").html(thingsNearme(context))
+					$("#things-nearme ol li").tsort({attr:"data-distance"})
 					$("#things-nearme").removeAttr("hidden")
 				}
 			}
