@@ -22,6 +22,14 @@ function lcs(lcstest, lcstarget) {
   return result;
 }
 
+$(function(){
+	$("#id_rating").change(function(){
+		var val = $(this).val()
+		
+		var scale_list = ["Terrible", "Bad", "Good", "Great"]
+			$("#rating-text").text("Rating: " + scale_list[val])
+	})
+})
 
 $(function(){
 	//Mentionable model
