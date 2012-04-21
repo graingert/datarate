@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.db.models import Count, Sum, Avg
 import urllib
+from django.core.urlresolvers import reverse
 from django import http
 from django.utils import simplejson as json
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -137,6 +138,14 @@ class ReviewCreateView(CreateView):
 	def get_initial(self):
 		self.initial["reviewed_uri"] = Thing.objects.get(slug=self.kwargs["slug"])
 		return self.initial
+	
+	def get(self, request, *args, **kwargs):
+		review = Review.objects.filter(author=request.user, reviewed_uri__slug=self.kwargs["slug"])
+		if review:
+			review_edit_url = reverse('edit-review', kwargs={'pk':review[0].pk})
+			return http.HttpResponseRedirect(review_edit_url)
+		else:
+			return super(ReviewCreateView, self).get(self, request, *args, **kwargs)
 		
 class ReviewUpdateView(UpdateView):
 	model = Review
