@@ -12,6 +12,8 @@ import urllib, hashlib, urlparse, urllib2
 from rdflib import ConjunctiveGraph, Namespace, exceptions
 from rdflib import URIRef, RDFS, RDF, BNode
 import bleach
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 import math
 # Create your models here.
 
@@ -80,7 +82,13 @@ class Thing(m.Model):
 			object=None,
 			default="No description"
 		)
-		desc = bleach.clean(unicode(desc), tags = bleach.ALLOWED_TAGS + ["p",])
+		#If the data is explicitly an HTML fragment clean it to ensure it is safe
+		#Potentially other formats can be added here eg Markdown
+		if desc.datatype == URIRef('http://purl.org/xtypes/Fragment-HTML'):
+			desc = mark_safe(bleach.clean(unicode(desc), tags = bleach.ALLOWED_TAGS + ["p",]))
+		else:
+			#Otherwise just escape it
+			desc = escape(desc)
 		return desc
 		
 	def chart(self):
