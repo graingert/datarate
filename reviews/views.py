@@ -97,14 +97,23 @@ class ThingDetailView(DetailView):
 		
 		if fmt == "json":
 			thing = context["object"]
-			output = dict(uri = thing.uri,
-				total = thing.review__rating__sum,
-				average = thing.review__rating__avg,
-				count = thing.review__count,
+			output = dict(
+				count = thing.review__count or 0,
+				total = thing.review__rating__sum or 0,
+				
+				uri = thing.uri,
 				reviews = self.request.build_absolute_uri(thing.get_absolute_url()),
-				ci_lower_bound = thing.ci_lower_bound,
-				ci_lower_bound_reversed = thing.ci_lower_bound_reversed,
 			)
+			
+			def add_if_truthy(dictionary,key,value=False):
+				if value:
+					dictionary[key] = value
+					
+			
+			add_if_truthy("average",thing.review__rating__avg)
+			add_if_truthy("ci_lower_bound",thing.ci_lower_bound)
+			add_if_truthy("ci_lower_bound",thing.ci_lower_bound_reversed)
+			
 			
 			response = http.HttpResponse(json.dumps(output),
 				content_type='application/json')
