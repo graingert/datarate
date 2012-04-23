@@ -9,6 +9,8 @@ import urllib, hashlib, urlparse, urllib2
 from rdflib import ConjunctiveGraph, Namespace, exceptions
 from rdflib import URIRef, RDFS, RDF, BNode
 
+from xml.sax import SAXException
+
 class ThingException(Exception):
 	def __init__(self, uri, message="{uri} caused an Unknown Error"):
 		self.uri = uri
