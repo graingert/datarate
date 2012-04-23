@@ -1,0 +1,16 @@
+{
+	"description" : "Thing JSON serialization",
+	"type" : "object",
+	"properties" : {
+		"count" :                   {"type" : "integer", "optional":false},
+		"total" :                   {"type" : "integer", "optional":false},
+		
+		"uri" :                     {"type" : "string",  "optional":false, "format":"uri"},
+		"reviews" :                 {"type" : "string",  "optional":false, "format":"uri"},
+		
+		"average" :                 {"type" : "number",  "optional":true},
+		"ci_lower_bound_reversed" : {"type" : "number",  "optional":true},
+		"ci_lower_bound" :          {"type" : "number",  "optional":true}
+	},
+	"additionalProperties" : false
+}
