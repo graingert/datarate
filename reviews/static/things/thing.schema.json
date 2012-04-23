@@ -2,15 +2,15 @@
 	"description" : "Thing JSON serialization",
 	"type" : "object",
 	"properties" : {
-		"count" :                   {"type" : "integer", "optional":false},
-		"total" :                   {"type" : "integer", "optional":false},
+		"count" :                   {"type" : "integer", "required":true},
+		"total" :                   {"type" : "integer", "required":true},
 		
-		"uri" :                     {"type" : "string",  "optional":false, "format":"uri"},
-		"reviews" :                 {"type" : "string",  "optional":false, "format":"uri"},
+		"uri" :                     {"type" : "string",  "required":true, "format":"uri"},
+		"reviews" :                 {"type" : "string",  "required":true, "format":"uri"},
 		
-		"average" :                 {"type" : "number",  "optional":true},
-		"ci_lower_bound_reversed" : {"type" : "number",  "optional":true},
-		"ci_lower_bound" :          {"type" : "number",  "optional":true}
+		"average" :                 {"type" : "number",  "required":false},
+		"ci_lower_bound_reversed" : {"type" : "number",  "required":false},
+		"ci_lower_bound" :          {"type" : "number",  "required":false}
 	},
 	"additionalProperties" : false
 }
