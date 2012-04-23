@@ -17,7 +17,7 @@ from datarate.django_http_exception import HttpException
 import httplib
 from django_browserid.views import Verify
 from django_browserid.auth import BrowserIDBackend
-from thingvalidator import ThingException
+from thingvalidator import ThingException, UnsuportedURIException
 from reviews import EMAIL_VALIDATOR
 	
 
@@ -52,7 +52,9 @@ class ThingRedirectView(RedirectView):
 		
 		try:
 			thing = Thing.construct_from_uri(uri)
-
+		
+		except UnsuportedURIException, e:
+			raise HttpException(message=e.message, status=httplib.BAD_REQUEST)
 		except ThingException, e:
 			raise HttpException(message=e.message, status=httplib.BAD_GATEWAY)
 		

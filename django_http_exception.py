@@ -100,7 +100,8 @@ class HttpExceptionMiddleware(object):
 		# now use context and render template      
 		c = RequestContext(request, {
 		'message': exception.message,
-		'w3cname': httplib.responses.get(exception.status, str(exception.status))
+		'w3cname': httplib.responses.get(exception.status, str(exception.status)),
+		'status_code': exception.status,
 		})
       
 		return HttpResponse(t.render(c), status=exception.status)
