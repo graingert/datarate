@@ -15,9 +15,9 @@
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="route.svg"
-   inkscape:export-filename="/home/graingert/projects/datarate/mockups/resource_review_page.png"
-   inkscape:export-xdpi="280.29849"
-   inkscape:export-ydpi="280.29849">
+   inkscape:export-filename="/home/graingert/projects/datarate/mockups/routes.png"
+   inkscape:export-xdpi="264.26294"
+   inkscape:export-ydpi="264.26294">
   <defs
      id="defs4">
     <marker
@@ -217,7 +217,7 @@
            x="132.85715"
            y="257.71429"
            style="font-size:16px" /></flowRegion><flowPara
-         id="flowPara4183-9">Home Page</flowPara></flowRoot>    <rect
+         id="flowPara4183-9">Landing Page</flowPara></flowRoot>    <rect
        style="fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3013-9-8-9-5"
        width="160"
