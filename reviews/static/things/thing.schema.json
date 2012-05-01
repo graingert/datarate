@@ -11,6 +11,5 @@
 		"average" :                 {"type" : "number",  "required":false},
 		"ci_lower_bound_reversed" : {"type" : "number",  "required":false},
 		"ci_lower_bound" :          {"type" : "number",  "required":false}
-	},
-	"additionalProperties" : false
+	}
 }
