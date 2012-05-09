@@ -85,7 +85,7 @@ class Thing(m.Model):
 		#If the data is explicitly an HTML fragment clean it to ensure it is safe
 		#Potentially other formats can be added here eg Markdown
 		
-		if desc.get("datatype") == URIRef('http://purl.org/xtypes/Fragment-HTML'):
+		if getattr(desc, "datatype", None) == URIRef('http://purl.org/xtypes/Fragment-HTML'):
 			desc = mark_safe(bleach.clean(unicode(desc), tags = bleach.ALLOWED_TAGS + ["p",]))
 		else:
 			#Otherwise just escape it
