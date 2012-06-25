@@ -199,7 +199,10 @@ $(function(){
 					for(var i=0; i<json.results.bindings.length; i++){
 						var item = json.results.bindings[i]
 						if (item.thing.type == "uri" && 'name' in item){
-							mentionables.add(new Mentionable({ uri:item.thing.value, label:item.name.value}))
+							var prot = URI(item.s.value).protocol()
+							if (prot == "http" || prot == "https" ){
+								mentionables.add(new Mentionable({ uri:item.thing.value, label:item.name.value}))
+							}
 						}
 					}
 					done()
