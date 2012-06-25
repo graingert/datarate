@@ -1,0 +1,8 @@
+python-django
+django_evolution
+django-rays https://bitbucket.org/graingert/django-rays-validation/
+django_extensions
+django_browserid
+GChartWrapper
+rdflib
+bleach
