@@ -123,21 +123,25 @@ $(function(){
 					var center = {lat:lat, lng:lng}
 					for(var i=0; i<json.results.bindings.length; i++){
 						var item = json.results.bindings[i]
-						context.things.push(
-							{
-								uri : item.s.value,
-								name : item.label.value,
-								api_url: URI("/thing.html").search({uri : item.s.value}),
-								distance: distance(center, {
-									lat :item.lat.value,
-									lng:item.long.value
-								})
-							}
-						)
-						context.things.sort(function(a,b){
-								return (a.distance - b.distance)
-						})
+						var prot = URI(item.s.value).protocol()
+						if (prot == "http" || prot == "https" ){
+						
+							context.things.push(
+								{
+									uri : item.s.value,
+									name : item.label.value,
+									api_url: URI("/thing.html").search({uri : item.s.value}),
+									distance: distance(center, {
+										lat :item.lat.value,
+										lng:item.long.value
+									})
+								}
+							)
+						}
 					}
+					context.things.sort(function(a,b){
+						return (a.distance - b.distance)
+					})
 					$("#things-nearme").html(thingsNearme(context))
 					$("#things-nearme").removeAttr("hidden")
 				}
