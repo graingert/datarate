@@ -1,6 +1,6 @@
 from django.forms import ModelForm, HiddenInput, MultipleHiddenInput, SelectMultiple, CharField
 from models import Thing, Review, UserProfile
-from rays.widgets import RangeInput
+from django_extrawidgets.widgets import RangeInput
 from reviews import SCALE, SCORE_MAP
 
 
